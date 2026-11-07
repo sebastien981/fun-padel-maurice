@@ -224,9 +224,9 @@ details.rest[open] summary::after{content:"Masquer"}
 .rrow .rk{font-family:var(--f-display);font-weight:800;font-stretch:80%;font-size:18px;text-align:center}
 .rrow .nm{font-weight:600;min-width:0;line-height:1.25;overflow-wrap:anywhere}
 .rrow .c{text-align:center;font-size:14px}
-.rrow .moy{text-align:right;font-family:var(--f-display);font-weight:800;font-stretch:80%;font-size:18px}
+.rrow .tot{text-align:right;font-family:var(--f-display);font-weight:800;font-stretch:80%;font-size:18px}
 .rrow.me{background:color-mix(in srgb,var(--ball) 28%,var(--surface))}
-.rrow.wait .nm,.rrow.wait .c,.rrow.wait .moy,.rrow.wait .rk{color:var(--muted)}
+.rrow.wait .nm,.rrow.wait .c,.rrow.wait .tot,.rrow.wait .rk{color:var(--muted)}
 .note{font-size:12.5px;color:var(--muted);margin:10px 2px 0}
 
 .empty{background:var(--surface);border:1px dashed var(--hair);border-radius:var(--r);padding:22px 18px;text-align:center}
@@ -435,14 +435,13 @@ function computeStats() {
     }
   });
   const all = [...byName.values()].filter(x => x.planned > 0 || x.j > 0);
-  const ranked = all.filter(x => x.j > 0).map(x => ({ ...x, moy: x.pts / x.j }))
-    .sort((a, b) => b.moy - a.moy || b.diff - a.diff || b.pts - a.pts || a.name.localeCompare(b.name, "fr"));
+  const ranked = all.filter(x => x.j > 0).map(x => ({ ...x }))
+    .sort((a, b) => b.pts - a.pts || b.diff - a.diff || a.name.localeCompare(b.name, "fr"));
   let rank = 0, prev = null;
-  ranked.forEach((x, k) => { if (!prev || x.moy !== prev.moy || x.diff !== prev.diff) rank = k + 1; x.rank = rank; prev = x; });
+  ranked.forEach((x, k) => { if (!prev || x.pts !== prev.pts || x.diff !== prev.diff) rank = k + 1; x.rank = rank; prev = x; });
   const waiting = all.filter(x => x.j === 0).sort((a, b) => a.name.localeCompare(b.name, "fr"));
   return { byName, ranked, waiting };
 }
-const fmtMoy = v => v.toFixed(1).replace(".", ",");
 
 /* ---------- Vue Matchs ---------- */
 function nameSpan(p, t) {
@@ -598,7 +597,7 @@ function renderMoi() {
   v.innerHTML = `<div class="hello"><h2>${esc(myN.split(" ")[0])}</h2><button class="linkbtn" type="button" data-unme>Changer de joueur</button></div>
     <div class="stats">
       <div class="stat"><div class="v">${r ? r.rank : "–"}</div><div class="k">Rang</div></div>
-      <div class="stat"><div class="v">${r ? fmtMoy(r.moy) : "–"}</div><div class="k">Moyenne</div></div>
+      <div class="stat"><div class="v">${mine.pts}</div><div class="k">Points</div></div>
       <div class="stat"><div class="v">${mine.j}/${mine.planned}</div><div class="k">Joués</div></div>
       <div class="stat"><div class="v">${mine.v}</div><div class="k">Victoires</div></div>
     </div>
@@ -620,17 +619,17 @@ function renderClassement() {
   const pod = ranked.slice(0, 3);
   const podHtml = pod.length === 3 ? `<div class="podium">${[1, 0, 2].map(k => {
     const x = pod[k];
-    return `<div class="pod p${k + 1}"><div class="rk">${x.rank}</div><div class="nm">${esc(x.name)}</div><div class="mv">${fmtMoy(x.moy)} pts/match · ${x.pts} pts</div></div>`;
+    return `<div class="pod p${k + 1}"><div class="rk">${x.rank}</div><div class="nm">${esc(x.name)}</div><div class="mv">${x.pts} points</div></div>`;
   }).join("")}</div>` : "";
   const myN = meName();
   const row = x => `<div class="rrow${x.name === myN ? " me" : ""}"><span class="rk">${x.rank}</span><span class="nm">${esc(x.name)}</span>
-    <span class="c">${x.j}</span><span class="c">${x.pts}</span><span class="c">${x.diff > 0 ? "+" : ""}${x.diff}</span><span class="moy">${fmtMoy(x.moy)}</span></div>`;
-  const wrow = x => `<div class="rrow wait${x.name === myN ? " me" : ""}"><span class="rk">–</span><span class="nm">${esc(x.name)}</span><span class="c">0</span><span class="c">0</span><span class="c">–</span><span class="moy">–</span></div>`;
+    <span class="c">${x.j}</span><span class="c">${x.v}</span><span class="c">${x.diff > 0 ? "+" : ""}${x.diff}</span><span class="tot">${x.pts}</span></div>`;
+  const wrow = x => `<div class="rrow wait${x.name === myN ? " me" : ""}"><span class="rk">–</span><span class="nm">${esc(x.name)}</span><span class="c">0</span><span class="c">–</span><span class="c">–</span><span class="tot">0</span></div>`;
   v.innerHTML = `<div class="section-title"><h2>Classement</h2><span class="aside">${n} match${n > 1 ? "s" : ""} sur 48</span></div>
     ${podHtml}
-    <div class="ranking"><div class="rrow head"><span>#</span><span>Joueur</span><span class="c">J</span><span class="c">Pts</span><span class="c">+/-</span><span style="text-align:right">Moy.</span></div>
+    <div class="ranking"><div class="rrow head"><span>#</span><span>Joueur</span><span class="c">J</span><span class="c">V</span><span class="c">+/-</span><span style="text-align:right">Pts</span></div>
     ${ranked.map(row).join("")}${waiting.map(wrow).join("")}</div>
-    <p class="note">Matchs en 25 points : chaque joueur reçoit les points de son équipe (25-23 donne 25 points à chaque joueur gagnant et 23 à chaque joueur perdant). Classement à la moyenne de points par match, puis à la différence de points : la moyenne compense les 6 matchs de Franck et Carine. J = matchs joués, Pts = total des points.</p>`;
+    <p class="note">Matchs en 25 points : chaque joueur reçoit les points de son équipe (25-23 donne 25 points à chaque joueur gagnant et 23 à chaque joueur perdant). Classement au total des points, puis à la différence de points en cas d'égalité. Franck et Carine jouent 6 matchs au lieu de 5. J = matchs joués, V = victoires, Pts = total des points.</p>`;
 }
 
 /* ---------- Saisie du score ---------- */
