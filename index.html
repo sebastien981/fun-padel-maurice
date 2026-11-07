@@ -110,6 +110,41 @@ main{padding-block:14px 8px}
 .form label{font-size:13px;color:var(--muted);font-weight:600;margin-top:6px}
 .form select,.form input{border:1px solid var(--hair);background:var(--surface);border-radius:12px;padding:11px 12px;font-size:16px;width:100%}
 
+/* Vote */
+.awards-hero{border-radius:18px;color:#fff;padding:16px;margin:4px 0 12px;background:linear-gradient(160deg,var(--court),var(--court-deep))}
+.awards-hero .lbl{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--ball)}
+.awards-hero h2{margin:4px 0 4px;font-family:var(--f-display);font-weight:900;font-style:italic;font-stretch:80%;font-size:28px;line-height:1.05}
+.awards-hero p{margin:0;font-size:14px;opacity:.9}
+.rules{margin:0 0 12px;padding:12px 14px 12px 30px;background:var(--surface);border:1px solid var(--hair);border-radius:var(--r);font-size:13.5px;display:grid;gap:3px}
+.vcard{background:var(--surface);border:1px solid var(--hair);border-radius:var(--r);padding:14px;margin-bottom:10px;display:grid;gap:8px}
+.vcard label{font-weight:700}
+.vcard select,.vcard textarea,.orgrow input{width:100%;border:1px solid var(--hair);background:var(--surface-2);border-radius:12px;padding:12px;font-size:16px;font:inherit}
+.vcard.voter{border-color:var(--court)}
+.vhead{display:flex;gap:12px;align-items:flex-start}
+.ve{font-size:28px;line-height:1}
+.vhead h3{margin:0;font-family:var(--f-display);font-stretch:85%;font-size:19px;line-height:1.15}
+.vq{margin:2px 0 0;color:var(--muted);font-size:13.5px;font-style:italic}
+.vdesc summary{cursor:pointer;color:var(--court);font-weight:600;font-size:13.5px}
+.vdesc p{margin:6px 0 0;font-size:13.5px;color:var(--muted)}
+.hint{margin:0;font-size:12.5px;color:var(--muted)}
+.voted{background:var(--win-bg);border:1px solid var(--hair);border-radius:var(--r);padding:16px;margin-bottom:12px}
+.voted .big{font-family:var(--f-display);font-weight:900;font-style:italic;font-stretch:80%;font-size:26px;color:var(--win)}
+.voted p{margin:4px 0 0}
+.vlock{margin-top:14px;background:var(--surface);border:1px dashed var(--hair);border-radius:var(--r);padding:16px;text-align:center}
+.vlock h3{margin:0;font-family:var(--f-display);font-stretch:85%;font-size:20px}
+.vlock p{margin:4px 0 0;color:var(--muted)}
+.org{margin-top:12px;text-align:left}
+.org summary{cursor:pointer;font-size:13px;color:var(--muted);text-align:center}
+.orgrow{display:flex;gap:8px;margin-top:8px}
+.winner{margin:2px 0 0;font-weight:800;color:var(--win)}
+.bar{display:grid;grid-template-columns:minmax(0,1.3fr) 1fr 28px;gap:8px;align-items:center;font-size:13.5px}
+.bn{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bt{height:10px;border-radius:5px;background:var(--surface-2);overflow:hidden}
+.bt i{display:block;height:100%;background:var(--court);border-radius:5px}
+.bv{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.rems{margin:0;padding-left:18px;display:grid;gap:4px;font-size:14px}
+@media (prefers-color-scheme: dark){ .vdesc summary{color:#9cc2ff} }
+
 /* Bandeau des tours */
 .tours{position:sticky;top:0;z-index:5;background:var(--bg);margin:0 calc(-1*max(16px,env(safe-area-inset-left,0px))) 0;padding:10px max(16px,env(safe-area-inset-left,0px)) 10px;border-bottom:1px solid var(--hair)}
 .tour-strip{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;scroll-snap-type:x proximity;padding-bottom:2px}
@@ -235,7 +270,7 @@ details.rest[open] summary::after{content:"Masquer"}
 
 /* ---------- Barre d'onglets ---------- */
 .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(12px);border-top:1px solid var(--hair);padding-bottom:env(safe-area-inset-bottom,0px)}
-.tabbar .wrap{display:grid;grid-template-columns:repeat(3,1fr);height:var(--tabbar)}
+.tabbar .wrap{display:grid;grid-template-columns:repeat(4,1fr);height:var(--tabbar)}
 .tab{border:0;background:none;display:grid;justify-items:center;align-content:center;gap:3px;font-size:11.5px;font-weight:700;color:var(--muted);letter-spacing:.02em}
 .tab svg{width:24px;height:24px}
 .tab[aria-current="page"]{color:var(--court)}
@@ -306,6 +341,7 @@ footer.foot{font-size:12px;color:var(--muted);text-align:center;margin:10px 0 0}
   <section class="view" id="view-matchs" aria-label="Matchs"></section>
   <section class="view" id="view-moi" aria-label="Mes matchs" hidden></section>
   <section class="view" id="view-classement" aria-label="Classement" hidden></section>
+  <section class="view" id="view-vote" aria-label="Vote" hidden></section>
   <p class="sync" id="sync"></p>
   <footer class="foot">Scores saisis par les joueurs. Une erreur ? Corrigez simplement le score du match.</footer>
 </main>
@@ -323,6 +359,10 @@ footer.foot{font-size:12px;color:var(--muted);text-align:center;margin:10px 0 0}
     <button class="tab" data-tab="classement" type="button">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M17 6h3a3 3 0 0 1-3 4M7 6H4a3 3 0 0 0 3 4"/></svg>
       Classement
+    </button>
+    <button class="tab" data-tab="vote" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="m9 14-2 7 5-3 5 3-2-7"/></svg>
+      Vote
     </button>
   </div>
 </nav>
@@ -744,6 +784,121 @@ async function cancelSub(pid) {
   } catch { toast("Annulation impossible. Vérifiez votre connexion."); }
 }
 
+
+/* ---------- Fun Padel Awards : vote ---------- */
+const RPC = "https://wglueoafueykmbukrzxt.supabase.co/rest/v1/rpc/";
+const VOTES = "https://wglueoafueykmbukrzxt.supabase.co/rest/v1/fun_padel_votes";
+const RESULTS_AT = Date.UTC(2026, 10, 7, 13, 30, 0); // 17h30 heure de Maurice
+const CATS = [
+  { e: "🏖️", t: "Le Touriste", q: "Tranquille, on est à Maurice !", d: "Il est venu pour passer un bon moment, profiter du soleil et retrouver les copains. Il prend son temps entre les points, admire le paysage, discute avec tout le monde et semble parfois oublier qu'il participe à un tournoi. Pour lui, le padel, c'est avant tout des vacances avec une raquette !" },
+  { e: "🍹", t: "Le Roi de la Troisième Mi-temps", q: "Champion du bar !", d: "Sur le terrain, ses performances sont parfois discutables… mais dès que le match est terminé, il retrouve une énergie incroyable ! Toujours le premier à proposer un verre, le dernier à quitter l'apéro et le meilleur pour mettre l'ambiance. Son véritable terrain de prédilection ? Le bar !" },
+  { e: "🧠", t: "Le Cerveau en Vacances", q: "On est à combien déjà ?", d: "Il ne sait jamais si le score est de 30-15 ou de 40-30, oublie qui doit servir, change de côté au mauvais moment et demande régulièrement : « C'est à nous ou à eux ? » Il joue avec enthousiasme, mais son cerveau semble être resté sur la plage de Mont Choisy !" },
+  { e: "🐌", t: "L'Escargot d'Or", q: "Pourquoi courir quand l'autre peut le faire ?", d: "Véritable adepte de l'économie d'énergie, il maîtrise parfaitement l'art de laisser passer les balles un peu trop éloignées. Son partenaire court à droite, à gauche, devant, derrière… pendant que lui observe tranquillement. Sa philosophie : moins on bouge, moins on se fatigue !" },
+  { e: "💣", t: "Le Kamikaze", q: "Même pas peur !", d: "Il tente des smashs impossibles, plonge sur des balles perdues, frappe à pleine puissance quand une simple remise suffirait et transforme chaque échange en mission commando. Son taux de réussite est parfois mystérieux, mais une chose est sûre : avec lui, le spectacle est garanti !" },
+  { e: "❤️", t: "Le Partenaire Idéal", q: "Celui qu'on veut tous dans son équipe !", d: "Toujours encourageant, souriant et fair-play, il félicite les beaux points, relativise les erreurs et ne laisse jamais son partenaire se décourager. Peu importe le score ou le niveau, jouer avec lui est un vrai plaisir. C'est le partenaire que tout le monde espère retrouver au prochain tournoi !" }
+];
+let ballot = { voter: "", c: ["", "", "", "", "", ""], rem: "" };
+let ballotTouched = false;
+let voted = store.get("fp_voted", null);
+let orgCode = store.get("fp_code", "");
+let results = null, nbBallots = null;
+const rpcHeaders = { apikey: KEY, Authorization: `Bearer ${KEY}`, "Content-Type": "application/json" };
+function voteNames() {
+  const set = new Set(P);
+  Object.values(reps).forEach(r => set.add(r.name));
+  return [...set].sort((a, b) => a.localeCompare(b, "fr"));
+}
+async function loadResults() {
+  try {
+    const res = await fetch(RPC + "fun_padel_resultats", { method: "POST", headers: rpcHeaders, body: JSON.stringify({ code: orgCode || null }), cache: "no-store" });
+    if (!res.ok) throw new Error(String(res.status));
+    results = await res.json(); nbBallots = results.bulletins;
+    if (orgCode && !results.code_valide) { orgCode = ""; store.set("fp_code", ""); }
+  } catch { /* garde les derniers résultats */ }
+  if (tab === "vote") renderVoteResults();
+}
+function renderVote() {
+  const v = $("#view-vote");
+  if (ballot.voter === "" && me !== null && !voted && !ballotTouched) ballot.voter = meName();
+  const names = voteNames();
+  const optList = (sel, exclude) => `<option value="">Choisir un joueur…</option>` + names.filter(n => n !== exclude)
+    .map(n => `<option${n === sel ? " selected" : ""}>${esc(n)}</option>`).join("");
+  const form = voted ? `<div class="voted"><div class="big">Merci ${esc(voted.split(" ")[0])} !</div><p>Ton bulletin est enregistré. Les votes sont anonymes. Résultats à 17h30.</p><button class="linkbtn" id="v-again" type="button">Faire voter une autre personne sur ce téléphone</button></div>` : `
+    <ul class="rules"><li>Un seul nom par catégorie</li><li>Interdiction de voter pour soi-même</li><li>Vote pour des personnes que tu as vues jouer</li><li>Un seul bulletin par participant, votes anonymes</li></ul>
+    <div class="vcard voter"><label for="v-voter">Ton nom</label><select id="v-voter">${optList(ballot.voter, null)}</select>
+      <p class="hint">Sert uniquement à garantir un seul bulletin par personne. Ton choix n'est jamais affiché.</p></div>
+    ${CATS.map((c, k) => `<div class="vcard"><div class="vhead"><span class="ve" aria-hidden="true">${c.e}</span><div><h3>${k + 1}. ${esc(c.t)}</h3><p class="vq">« ${esc(c.q)} »</p></div></div>
+      <details class="vdesc"><summary>Lire la description</summary><p>${esc(c.d)}</p></details>
+      <select id="v-c${k}" aria-label="${esc(c.t)}">${optList(ballot.c[k], ballot.voter)}</select></div>`).join("")}
+    <div class="vcard"><label for="v-rem">Remarque (facultatif)</label><textarea id="v-rem" maxlength="500" rows="3" placeholder="Un mot pour les organisateurs">${esc(ballot.rem)}</textarea></div>
+    <p class="err" id="v-err"></p>
+    <button class="btn primary block" id="v-send" type="button">Envoyer mon bulletin</button>`;
+  v.innerHTML = `<div class="awards-hero"><div class="lbl">Fun Padel Awards</div><h2>6 catégories, 6 médailles</h2>
+      <p>Vote pour le joueur ou la joueuse qui correspond le mieux à chaque description.</p></div>
+    ${form}
+    <div id="v-results"></div>`;
+  v.querySelectorAll("select,textarea").forEach(el => el.addEventListener("change", onBallotChange));
+  const rem = $("#v-rem"); if (rem) rem.addEventListener("input", onBallotChange);
+  renderVoteResults();
+}
+function onBallotChange(e) {
+  const id = e.target.id; ballotTouched = true;
+  if (id === "v-voter") { ballot.voter = e.target.value; ballot.c = ballot.c.map(x => x === ballot.voter ? "" : x); renderVote(); return; }
+  if (id === "v-rem") { ballot.rem = e.target.value; return; }
+  ballot.c[Number(id.slice(3))] = e.target.value;
+}
+async function sendBallot() {
+  const err = $("#v-err");
+  if (!ballot.voter) { err.textContent = "Choisis ton nom en haut du bulletin."; return; }
+  const miss = ballot.c.findIndex(x => !x);
+  if (miss >= 0) { err.textContent = `Choisis un joueur pour « ${CATS[miss].t} ».`; return; }
+  if (ballot.c.includes(ballot.voter)) { err.textContent = "Tu ne peux pas voter pour toi-même."; return; }
+  const btn = $("#v-send"); btn.disabled = true; btn.textContent = "Envoi…";
+  try {
+    const body = { votant: ballot.voter, remarque: ballot.rem.trim() || null };
+    ballot.c.forEach((x, k) => body["c" + (k + 1)] = x);
+    const res = await fetch(VOTES, { method: "POST", headers: { ...rpcHeaders, Prefer: "return=minimal" }, body: JSON.stringify(body) });
+    if (res.status === 409) { err.textContent = `Un bulletin a déjà été enregistré au nom de ${ballot.voter}.`; btn.disabled = false; btn.textContent = "Envoyer mon bulletin"; return; }
+    if (!res.ok) throw new Error(String(res.status));
+    voted = ballot.voter; store.set("fp_voted", voted);
+    renderVote(); window.scrollTo({ top: 0 }); toast("Bulletin enregistré, merci !"); loadResults();
+  } catch {
+    err.textContent = "Envoi impossible. Vérifie ta connexion puis réessaie.";
+    btn.disabled = false; btn.textContent = "Envoyer mon bulletin";
+  }
+}
+function renderVoteResults() {
+  const box = $("#v-results"); if (!box) return;
+  const n = nbBallots === null ? "…" : nbBallots;
+  if (!results || !results.ouvert) {
+    const left = (RESULTS_AT - Date.now()) / MIN;
+    box.innerHTML = `<div class="vlock"><h3>Résultats à 17h30</h3>
+      <p>${n} bulletin${n > 1 ? "s" : ""} déposé${n > 1 ? "s" : ""}${left > 0 ? ` · ouverture dans ${fmtLeft(left)}` : ""}</p>
+      <details class="org"><summary>Accès organisateurs</summary>
+        <div class="orgrow"><input id="v-code" type="text" autocomplete="off" autocapitalize="characters" placeholder="Code secret" aria-label="Code secret organisateurs">
+        <button class="btn ghost" id="v-code-go" type="button">Voir</button></div><p class="err" id="v-code-err"></p></details></div>`;
+    return;
+  }
+  const cats = results.categories || [];
+  box.innerHTML = `<div class="section-title"><h2>Résultats</h2><span class="aside">${n} bulletin${n > 1 ? "s" : ""}${results.code_valide ? " · accès organisateurs" : ""}</span></div>
+    <div class="vres">${CATS.map((c, k) => {
+      const r = (cats.find(x => x.cat === k + 1) || { resultats: [] }).resultats;
+      const top = r.length ? r[0].voix : 0, win = r.filter(x => x.voix === top && top > 0);
+      return `<div class="vcard"><div class="vhead"><span class="ve" aria-hidden="true">${c.e}</span><div><h3>${esc(c.t)}</h3>
+        <p class="winner">${win.length ? win.map(x => esc(x.nom)).join(" et ") + (win.length > 1 ? " (ex æquo)" : "") : "Aucun vote"}</p></div></div>
+        ${r.slice(0, 5).map(x => `<div class="bar"><span class="bn">${esc(x.nom)}</span><span class="bt"><i style="width:${Math.round(100 * x.voix / top)}%"></i></span><span class="bv">${x.voix}</span></div>`).join("")}</div>`;
+    }).join("")}</div>
+    ${results.code_valide && results.remarques && results.remarques.length ? `<div class="vcard"><h3>Remarques (organisateurs)</h3><ul class="rems">${results.remarques.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>` : ""}
+    ${results.code_valide ? `<button class="linkbtn" id="v-code-out" type="button">Quitter l'accès organisateurs</button>` : ""}`;
+}
+async function tryCode() {
+  const c = ($("#v-code").value || "").trim();
+  if (!c) return;
+  orgCode = c; await loadResults();
+  if (results && results.code_valide) { store.set("fp_code", orgCode); toast("Accès organisateurs ouvert"); }
+  else { orgCode = ""; const e = $("#v-code-err"); if (e) e.textContent = "Code incorrect."; }
+}
+
 /* ---------- Synchronisation ---------- */
 async function refresh() {
   try {
@@ -770,16 +925,17 @@ function renderSync() {
 function render() {
   renderStatus();
   document.querySelectorAll(".tab").forEach(b => b.setAttribute("aria-current", b.dataset.tab === tab ? "page" : "false"));
-  for (const t of ["matchs", "moi", "classement"]) $("#view-" + t).hidden = t !== tab;
-  if (tab === "matchs") renderMatchs(); else if (tab === "moi") renderMoi(); else renderClassement();
+  for (const t of ["matchs", "moi", "classement", "vote"]) $("#view-" + t).hidden = t !== tab;
+  if (tab === "matchs") renderMatchs(); else if (tab === "moi") renderMoi(); else if (tab === "classement") renderClassement();
+  else if (!$("#view-vote").childElementCount || voted) { renderVote(); loadResults(); } else renderVoteResults();
   renderSync();
 }
-function go(t) { tab = t; if (location.hash !== "#" + t) history.replaceState(null, "", "#" + t); render(); window.scrollTo({ top: 0 }); }
+function go(t) { tab = t; if (location.hash !== "#" + t) history.replaceState(null, "", "#" + t); render(); window.scrollTo({ top: 0 }); if (t === "vote") loadResults(); }
 let toastTimer;
 function toast(msg) { const r = $("#toast-root"); r.innerHTML = `<div class="toast" role="status">${esc(msg)}</div>`; clearTimeout(toastTimer); toastTimer = setTimeout(() => r.innerHTML = "", 2600); }
 
 document.addEventListener("click", e => {
-  const t = e.target.closest("[data-tab],[data-tour],[data-enter],[data-me],[data-pick],[data-unme],[data-step],[data-set],[data-sub],[data-unsub],#sub-save,#save,#clear,#cancel,#bd,#share");
+  const t = e.target.closest("[data-tab],[data-tour],[data-enter],[data-me],[data-pick],[data-unme],[data-step],[data-set],[data-sub],[data-unsub],#sub-save,#save,#clear,#cancel,#bd,#share,#v-send,#v-code-go,#v-code-out,#v-again");
   if (!e.target.closest(".finder") && $("#find-results") && !$("#find-results").hidden) { $("#find-results").hidden = true; }
   if (!t) return;
   if (t.dataset.pick !== undefined) { pick(Number(t.dataset.pick)); return; }
@@ -798,8 +954,12 @@ document.addEventListener("click", e => {
   else if (t.hasAttribute("data-sub")) openSub(null);
   else if (t.dataset.unsub !== undefined) cancelSub(Number(t.dataset.unsub));
   else if (t.id === "sub-save") saveSub();
+  else if (t.id === "v-send") sendBallot();
+  else if (t.id === "v-again") { voted = null; store.set("fp_voted", null); ballot = { voter: "", c: ["", "", "", "", "", ""], rem: "" }; renderVote(); window.scrollTo({ top: 0 }); }
+  else if (t.id === "v-code-go") tryCode();
+  else if (t.id === "v-code-out") { orgCode = ""; store.set("fp_code", ""); results = null; loadResults(); }
 });
-window.addEventListener("hashchange", () => { const t = location.hash.slice(1); if (["matchs", "moi", "classement"].includes(t) && t !== tab) go(t); });
+window.addEventListener("hashchange", () => { const t = location.hash.slice(1); if (["matchs", "moi", "classement", "vote"].includes(t) && t !== tab) go(t); });
 document.addEventListener("keydown", e => { if (e.key === "Escape" && sheetMatch !== null) closeSheet(); });
 async function share() {
   const url = location.origin + location.pathname;
@@ -808,9 +968,10 @@ async function share() {
 }
 
 const h = location.hash.slice(1);
-if (["matchs", "moi", "classement"].includes(h)) tab = h;
+if (["matchs", "moi", "classement", "vote"].includes(h)) tab = h;
 rebuild(); render(); refresh();
 setInterval(() => { if (document.visibilityState === "visible") refresh(); }, 15000);
+setInterval(() => { if (document.visibilityState === "visible" && tab === "vote") loadResults(); }, 30000);
 setInterval(() => { renderStatus(); }, 20000);
 document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") refresh(); });
 </script>
