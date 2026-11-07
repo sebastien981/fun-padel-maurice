@@ -76,6 +76,28 @@ main{padding-block:14px 8px}
 .section-title .aside{font-size:13px;color:var(--muted)}
 .muted{color:var(--muted)}
 
+/* Recherche de nom */
+.finder{position:relative;margin:2px 0 10px}
+.finder .ficon{position:absolute;left:14px;top:50%;width:20px;height:20px;transform:translateY(-50%);color:var(--muted);pointer-events:none}
+.finder input{width:100%;border:1.5px solid var(--hair);background:var(--surface);border-radius:14px;padding:13px 14px 13px 44px;font-size:16px;box-shadow:var(--shadow)}
+.finder input:focus{border-color:var(--court);outline:none}
+.results{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:8;background:var(--surface);border:1px solid var(--hair);border-radius:14px;box-shadow:0 12px 32px rgba(14,28,50,.18);max-height:min(55vh,360px);overflow:auto;padding:6px}
+.results button{display:block;width:100%;text-align:left;border:0;background:none;border-radius:10px;padding:12px;font-weight:600;font-size:15.5px;min-height:46px}
+.results button:hover,.results button:focus-visible{background:var(--surface-2)}
+.results .nores{margin:0;padding:12px;color:var(--muted);font-size:14px}
+.mine{background:var(--surface);border:1px solid var(--hair);border-radius:var(--r);padding:10px 12px 12px;margin-bottom:6px}
+.mine-head{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:14px}
+.mine-head .linkbtn{padding:4px 0}
+.mine-chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-top:6px}
+.mine-chips::-webkit-scrollbar{display:none}
+.mchip{flex:none;display:grid;justify-items:start;gap:1px;border:1px solid transparent;background:var(--ball);color:var(--ball-ink);border-radius:12px;padding:7px 10px;text-align:left}
+.mchip b{font-family:var(--f-display);font-stretch:80%;font-size:16px;line-height:1.1}
+.mchip span{font-size:11.5px;font-weight:600}
+.mchip em{font-style:normal;font-family:var(--f-display);font-weight:800;font-stretch:75%;font-size:15px}
+.mchip.done{background:var(--surface-2);color:var(--muted);border-color:var(--hair)}
+.mchip.live{background:var(--live);color:#fff}
+.mchip.sel{outline:2px solid var(--court);outline-offset:1px}
+
 /* Bandeau des tours */
 .tours{position:sticky;top:0;z-index:5;background:var(--bg);margin:0 calc(-1*max(16px,env(safe-area-inset-left,0px))) 0;padding:10px max(16px,env(safe-area-inset-left,0px)) 10px;border-bottom:1px solid var(--hair)}
 .tour-strip{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;scroll-snap-type:x proximity;padding-bottom:2px}
@@ -423,14 +445,61 @@ function renderMatchs() {
   const ids = matchesOfTour(selTour), playing = new Set(ids.flatMap(playersOf));
   const rest = P.map((n, id) => id).filter(id => !playing.has(id)).sort((a, b) => P[a].localeCompare(P[b], "fr"));
   $("#view-matchs").innerHTML = `
+    ${finderHtml()}
     <div class="tours"><div class="tour-strip" id="strip">${chips}</div></div>
     <div class="tour-head"><h2>Tour ${selTour}</h2><span class="when">${tourLabel(selTour)}</span>${pill}</div>
     <div class="matches">${ids.map(i => matchCard(i)).join("")}</div>
     <details class="rest"${restOpen ? " open" : ""}><summary>Au repos pendant ce tour (${rest.length})</summary>
       <div class="restlist">${rest.map(id => `<span class="${id === me ? "me" : ""}">${esc(P[id])}</span>`).join("")}</div></details>`;
   $("#view-matchs details.rest").addEventListener("toggle", e => { restOpen = e.target.open; });
+  bindFinder();
   const sel = $("#strip .sel");
   if (sel) sel.scrollIntoView({ block: "nearest", inline: "center" });
+}
+
+/* ---------- Recherche de son nom (accueil) ---------- */
+let findQ = "", findFocus = false;
+const fold = s => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+function finderHtml() {
+  let mine = "";
+  if (me !== null) {
+    const my = M.map((m, i) => i).filter(i => playersOf(i).includes(me));
+    mine = `<div class="mine"><div class="mine-head"><span>Matchs de <b>${esc(P[me])}</b></span>
+      <button class="linkbtn" type="button" data-unme>Effacer</button></div>
+      <div class="mine-chips">${my.map(i => {
+        const m = M[i], st = tourState(m[0]), s = scores[i];
+        return `<button type="button" class="mchip ${st}${m[0] === selTour ? " sel" : ""}" data-tour="${m[0]}"><b>T${m[0]}</b><span>${hm(startMin(m[0]))} · Terrain ${m[1]}</span>${s ? `<em>${s.a}-${s.b}</em>` : ""}</button>`;
+      }).join("")}</div></div>`;
+  }
+  return `<div class="finder" role="search">
+    <svg class="ficon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input id="find" type="search" placeholder="${me === null ? "Recherchez votre nom" : "Rechercher un autre joueur"}" autocomplete="off" enterkeyhint="search" aria-label="Rechercher un joueur" value="${esc(findQ)}">
+    <div class="results" id="find-results" role="listbox" hidden></div>
+  </div>${mine}`;
+}
+function renderFindResults() {
+  const box = $("#find-results"); if (!box) return;
+  const q = fold(findQ.trim());
+  if (!q) { box.hidden = true; box.innerHTML = ""; return; }
+  const hits = P.map((n, id) => ({ n, id })).filter(x => fold(x.n).includes(q)).sort((a, b) => a.n.localeCompare(b.n, "fr"));
+  box.innerHTML = hits.length ? hits.map(x => `<button type="button" role="option" data-pick="${x.id}">${esc(x.n)}</button>`).join("")
+    : `<p class="nores">Aucun joueur ne correspond à « ${esc(findQ.trim())} »</p>`;
+  box.hidden = false;
+}
+function bindFinder() {
+  const inp = $("#find"); if (!inp) return;
+  inp.addEventListener("input", () => { findQ = inp.value; renderFindResults(); });
+  inp.addEventListener("focus", () => { findFocus = true; });
+  inp.addEventListener("blur", () => { findFocus = false; });
+  if (findQ) renderFindResults();
+  if (findFocus) { inp.focus(); inp.setSelectionRange(inp.value.length, inp.value.length); }
+}
+function pick(id) {
+  me = id; store.set("fp_me", me); findQ = ""; findFocus = false;
+  const next = M.map((m, i) => i).filter(i => playersOf(i).includes(me)).find(i => tourState(M[i][0]) !== "done");
+  selTour = next !== undefined ? M[next][0] : selTour;
+  if (document.activeElement) document.activeElement.blur();
+  renderMatchs(); toast(`Vos matchs sont surlignés en jaune`);
 }
 
 /* ---------- Vue Mes matchs ---------- */
@@ -603,8 +672,10 @@ let toastTimer;
 function toast(msg) { const r = $("#toast-root"); r.innerHTML = `<div class="toast" role="status">${esc(msg)}</div>`; clearTimeout(toastTimer); toastTimer = setTimeout(() => r.innerHTML = "", 2600); }
 
 document.addEventListener("click", e => {
-  const t = e.target.closest("[data-tab],[data-tour],[data-enter],[data-me],[data-unme],[data-step],#save,#clear,#cancel,#bd,#share");
+  const t = e.target.closest("[data-tab],[data-tour],[data-enter],[data-me],[data-pick],[data-unme],[data-step],#save,#clear,#cancel,#bd,#share");
+  if (!e.target.closest(".finder") && $("#find-results") && !$("#find-results").hidden) { $("#find-results").hidden = true; }
   if (!t) return;
+  if (t.dataset.pick !== undefined) { pick(Number(t.dataset.pick)); return; }
   if (t.id === "bd") { if (e.target === t) closeSheet(); return; }
   if (t.dataset.tab) go(t.dataset.tab);
   else if (t.dataset.tour) { selTour = Number(t.dataset.tour); renderMatchs(); }
@@ -627,7 +698,6 @@ async function share() {
 
 const h = location.hash.slice(1);
 if (["matchs", "moi", "classement"].includes(h)) tab = h;
-else if (me === null) tab = "moi";
 rebuild(); render(); refresh();
 setInterval(() => { if (document.visibilityState === "visible") refresh(); }, 15000);
 setInterval(() => { renderStatus(); }, 20000);
