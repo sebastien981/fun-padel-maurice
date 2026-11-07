@@ -116,7 +116,7 @@ main{padding-block:14px 8px}
 .team.win .score{color:var(--win)}
 .team.win .names span:not(.me){color:var(--ink)}
 .team.lose .names span:not(.me){color:var(--muted)}
-.score.empty{font-size:24px;color:var(--hair)}
+.score.none{font-size:24px;color:var(--muted);opacity:.5}
 .match footer{display:flex;align-items:center;gap:10px;padding:10px 14px 12px;border-top:1px solid var(--hair)}
 .match footer .meta{font-size:12.5px;color:var(--muted);flex:1;min-width:0}
 .btn{border:0;border-radius:12px;padding:11px 16px;font-weight:700;font-size:15px;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px}
@@ -232,7 +232,7 @@ details.rest[open] summary::after{content:"Masquer"}
 .hist ol{margin:0;padding-left:18px;display:grid;gap:3px;font-size:13.5px}
 .hist .num{font-size:15px}
 
-.toast{position:fixed;left:50%;bottom:calc(var(--tabbar) + env(safe-area-inset-bottom,0px) + 14px);transform:translateX(-50%);z-index:40;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-weight:600;font-size:14px;box-shadow:var(--shadow);max-width:calc(100% - 32px);text-align:center}
+.toast{position:fixed;left:50%;bottom:calc(var(--tabbar) + env(safe-area-inset-bottom,0px) + 14px);transform:translateX(-50%);z-index:40;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-weight:600;font-size:14px;box-shadow:var(--shadow);width:max-content;max-width:calc(100% - 32px);text-align:center}
 .sync{font-size:12px;color:var(--muted);text-align:center;margin:18px 0 4px}
 .sync.off{color:var(--live);font-weight:600}
 footer.foot{font-size:12px;color:var(--muted);text-align:center;margin:10px 0 0}
@@ -395,7 +395,7 @@ function matchCard(i, opts = {}) {
   const m = M[i], s = scores[i], ts = tourState(m[0]);
   const aWin = s && s.a > s.b, bWin = s && s.b > s.a;
   const cls = w => s ? (w ? " win" : (s.a === s.b ? "" : " lose")) : "";
-  const sc = v => s ? `<div class="score">${v}</div>` : `<div class="score empty">–</div>`;
+  const sc = v => s ? `<div class="score">${v}</div>` : `<div class="score none">–</div>`;
   const meta = s ? `Saisi${s.by ? " par " + esc(s.by) : ""} à ${clockMu(s.at)}` :
     (ts === "live" ? "Match en cours" : ts === "done" ? "Score pas encore saisi" : `Début à ${hm(startMin(m[0]))}`);
   const btn = s ? `<button class="btn ghost" data-enter="${i}" type="button">Corriger</button>`
@@ -617,6 +617,7 @@ document.addEventListener("click", e => {
   else if (t.id === "cancel") closeSheet();
   else if (t.id === "share") share();
 });
+window.addEventListener("hashchange", () => { const t = location.hash.slice(1); if (["matchs", "moi", "classement"].includes(t) && t !== tab) go(t); });
 document.addEventListener("keydown", e => { if (e.key === "Escape" && sheetMatch !== null) closeSheet(); });
 async function share() {
   const url = location.origin + location.pathname;
