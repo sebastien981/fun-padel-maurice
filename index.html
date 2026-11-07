@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Fun Padel Maurice Accueil</title>
+<meta name="description" content="Planning, scores en direct et classement du Fun Padel Maurice Accueil, samedi 7 novembre, 14h00.">
+<meta property="og:title" content="Fun Padel Maurice Accueil">
+<meta property="og:description" content="Samedi 7 novembre · 14h00 · 3 terrains · 38 joueurs. Planning, scores en direct et classement.">
+<meta property="og:image" content="https://sebastien981.github.io/fun-padel-maurice/logo.jpg">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#1b5cb5">
+<link rel="icon" href="logo.jpg">
+<link rel="apple-touch-icon" href="logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,500..900;1,62..125,700..900&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Layout : bandeau "court de padel" en tête, une colonne mobile, barre d'onglets en bas comme une appli */
+:root{
+  --bg:#edf2f8; --surface:#ffffff; --surface-2:#f4f7fb; --ink:#0e1c32; --muted:#5a6a81; --hair:#d9e2ee;
+  --court:#1b5cb5; --court-deep:#123f80; --court-ink:#ffffff; --line:rgba(255,255,255,.55);
+  --ball:#dcf23f; --ball-ink:#1d2a06; --live:#fe1359; --win:#0b8a57; --win-bg:#e3f5ec; --warn:#b26a00;
+  --f-display:"Archivo","Arial Narrow",system-ui,sans-serif; --f-body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --r:16px; --shadow:0 1px 2px rgba(14,28,50,.06),0 6px 18px rgba(14,28,50,.06);
+  --tabbar:64px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#08111f; --surface:#101c30; --surface-2:#15233b; --ink:#e8eef8; --muted:#94a4bc; --hair:#22324d;
+    --court:#1f63c2; --court-deep:#0f3470; --court-ink:#ffffff; --line:rgba(255,255,255,.45);
+    --ball:#dcf23f; --ball-ink:#1d2a06; --live:#ff3b74; --win:#3fd18f; --win-bg:#0f2e22; --warn:#f0a63a;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 22px rgba(0,0,0,.25);
+    color-scheme:dark;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 var(--f-body);padding-bottom:calc(var(--tabbar) + env(safe-area-inset-bottom,0px) + 12px)}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--ball);outline-offset:2px}
+.wrap{max-width:720px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.num{font-family:var(--f-display);font-variant-numeric:tabular-nums;font-stretch:75%;font-weight:800}
+
+/* ---------- Bandeau ---------- */
+.hero{position:relative;overflow:hidden;color:var(--court-ink);
+  background:radial-gradient(120% 90% at 85% 0%,rgba(255,255,255,.14),transparent 55%),linear-gradient(160deg,var(--court) 0%,var(--court-deep) 100%);
+  padding-top:env(safe-area-inset-top,0px)}
+.hero .courtlines{position:absolute;right:-40px;top:8px;width:340px;max-width:80%;opacity:.28;pointer-events:none}
+.hero .wrap{position:relative;padding-block:18px 16px;display:grid;gap:14px}
+.brand{display:flex;align-items:center;gap:14px}
+.logo{width:64px;height:64px;border-radius:16px;background:#fff;flex:none;display:grid;place-items:center;box-shadow:0 6px 16px rgba(0,0,0,.18);overflow:hidden}
+.logo img{width:100%;height:100%;object-fit:cover}
+.brand h1{margin:0;font-family:var(--f-display);font-weight:900;font-style:italic;font-stretch:80%;font-size:clamp(30px,8.5vw,40px);line-height:.95;letter-spacing:-.01em;text-wrap:balance}
+.brand h1 b{color:var(--ball);font-weight:900}
+.brand p{margin:4px 0 0;font-size:13.5px;opacity:.9}
+.share{margin-left:auto;align-self:flex-start;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.1);color:#fff;border-radius:999px;padding:7px 12px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px}
+.status{display:flex;align-items:center;gap:12px;background:rgba(5,20,45,.32);border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:10px 12px;backdrop-filter:blur(6px)}
+.status .dot{width:10px;height:10px;border-radius:50%;background:var(--ball);flex:none}
+.status.live .dot{background:var(--live);box-shadow:0 0 0 0 rgba(254,19,89,.6);animation:pulse 1.6s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 9px rgba(254,19,89,0)}100%{box-shadow:0 0 0 0 rgba(254,19,89,0)}}
+.status .t1{font-weight:700;font-size:15px;line-height:1.2}
+.status .t2{font-size:12.5px;opacity:.85}
+.status .clock{margin-left:auto;text-align:right;font-size:26px;line-height:1;color:var(--ball)}
+.status .clock small{display:block;font:600 10.5px/1.3 var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:#fff;opacity:.75}
+.facts{display:flex;gap:8px;flex-wrap:wrap;font-size:12px}
+.facts span{background:rgba(255,255,255,.12);border-radius:999px;padding:3px 10px;font-weight:600}
+
+/* ---------- Vues ---------- */
+main{padding-block:14px 8px}
+.view[hidden]{display:none}
+.section-title{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:18px 0 10px}
+.section-title h2{margin:0;font-family:var(--f-display);font-stretch:85%;font-weight:800;font-size:22px;letter-spacing:-.005em}
+.section-title .aside{font-size:13px;color:var(--muted)}
+.muted{color:var(--muted)}
+
+/* Bandeau des tours */
+.tours{position:sticky;top:0;z-index:5;background:var(--bg);margin:0 calc(-1*max(16px,env(safe-area-inset-left,0px))) 0;padding:10px max(16px,env(safe-area-inset-left,0px)) 10px;border-bottom:1px solid var(--hair)}
+.tour-strip{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;scroll-snap-type:x proximity;padding-bottom:2px}
+.tour-strip::-webkit-scrollbar{display:none}
+.chip{scroll-snap-align:center;flex:none;min-width:58px;border:1px solid var(--hair);background:var(--surface);border-radius:12px;padding:6px 8px 5px;text-align:center;display:grid;gap:1px;position:relative}
+.chip .n{font-family:var(--f-display);font-weight:800;font-stretch:80%;font-size:17px;line-height:1.1}
+.chip .h{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.chip.past{background:var(--surface-2)}
+.chip.past .n{color:var(--muted)}
+.chip.full::after{content:"";position:absolute;top:5px;right:5px;width:7px;height:7px;border-radius:50%;background:var(--win)}
+.chip.live{border-color:var(--live)}
+.chip.live .h{color:var(--live);font-weight:700}
+.chip.sel{background:var(--court);border-color:var(--court);color:#fff}
+.chip.sel .h,.chip.sel .n{color:#fff}
+
+.tour-head{display:flex;align-items:center;gap:10px;margin:16px 0 10px;flex-wrap:wrap}
+.tour-head h2{margin:0;font-family:var(--f-display);font-weight:900;font-style:italic;font-stretch:80%;font-size:30px;line-height:1}
+.tour-head .when{font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;border-radius:999px;padding:3px 10px;letter-spacing:.02em}
+.pill.live{background:var(--live);color:#fff}
+.pill.done{background:var(--surface-2);color:var(--muted);border:1px solid var(--hair)}
+.pill.next{background:var(--ball);color:var(--ball-ink)}
+.pill.change{background:var(--surface-2);color:var(--warn);border:1px solid var(--hair)}
+
+/* Carte de match */
+.matches{display:grid;gap:12px}
+.match{background:var(--surface);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;border:1px solid var(--hair)}
+.match header{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;background:var(--surface-2);border-bottom:1px solid var(--hair)}
+.court-tag{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px;letter-spacing:.04em;text-transform:uppercase}
+.court-tag svg{width:28px;height:15px;flex:none}
+.match header .when{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.team{display:flex;align-items:center;gap:12px;padding:10px 14px}
+.team + .team{border-top:1px dashed var(--hair)}
+.names{display:grid;gap:1px;min-width:0;flex:1}
+.names span{font-weight:600;font-size:15.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.names span.me{background:var(--ball);color:var(--ball-ink);border-radius:6px;padding:0 6px;margin-left:-6px;width:fit-content;max-width:100%}
+.score{font-family:var(--f-display);font-stretch:75%;font-weight:800;font-size:34px;line-height:1;min-width:44px;text-align:right;font-variant-numeric:tabular-nums;color:var(--muted)}
+.team.win .score{color:var(--win)}
+.team.win .names span:not(.me){color:var(--ink)}
+.team.lose .names span:not(.me){color:var(--muted)}
+.score.empty{font-size:24px;color:var(--hair)}
+.match footer{display:flex;align-items:center;gap:10px;padding:10px 14px 12px;border-top:1px solid var(--hair)}
+.match footer .meta{font-size:12.5px;color:var(--muted);flex:1;min-width:0}
+.btn{border:0;border-radius:12px;padding:11px 16px;font-weight:700;font-size:15px;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px}
+.btn.primary{background:var(--court);color:#fff}
+.btn.ball{background:var(--ball);color:var(--ball-ink)}
+.btn.ghost{background:transparent;color:var(--court);border:1px solid var(--hair)}
+.btn.block{width:100%}
+.btn:disabled{opacity:.55}
+@media (prefers-color-scheme: dark){ .btn.ghost{color:#9cc2ff} }
+
+details.rest{margin-top:14px;background:var(--surface);border:1px solid var(--hair);border-radius:var(--r);padding:0 14px}
+details.rest summary{list-style:none;padding:12px 0;font-weight:600;display:flex;justify-content:space-between;cursor:pointer}
+details.rest summary::-webkit-details-marker{display:none}
+details.rest summary::after{content:"Voir";color:var(--court);font-size:13px}
+details.rest[open] summary::after{content:"Masquer"}
+.restlist{display:flex;flex-wrap:wrap;gap:6px;padding:0 0 14px}
+.restlist span{font-size:13px;background:var(--surface-2);border:1px solid var(--hair);border-radius:999px;padding:3px 10px}
+.restlist span.me{background:var(--ball);color:var(--ball-ink);border-color:transparent;font-weight:700}
+
+/* ---------- Mes matchs ---------- */
+.picker{display:grid;gap:10px}
+.search{width:100%;border:1px solid var(--hair);background:var(--surface);border-radius:12px;padding:12px 14px;font-size:16px}
+.namegrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.namegrid button{border:1px solid var(--hair);background:var(--surface);border-radius:12px;padding:12px;text-align:left;font-weight:600;min-height:48px}
+.hello{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:6px 0 12px}
+.hello h2{margin:0;font-family:var(--f-display);font-stretch:85%;font-weight:800;font-size:24px}
+.linkbtn{background:none;border:0;color:var(--court);font-weight:600;font-size:14px;padding:8px 0}
+@media (prefers-color-scheme: dark){ .linkbtn{color:#9cc2ff} }
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.stat{background:var(--surface);border:1px solid var(--hair);border-radius:14px;padding:10px 8px;text-align:center}
+.stat .v{font-family:var(--f-display);font-weight:800;font-stretch:75%;font-size:28px;line-height:1.05;font-variant-numeric:tabular-nums}
+.stat .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.nextcard{margin-top:12px;border-radius:18px;color:#fff;padding:16px;position:relative;overflow:hidden;background:linear-gradient(160deg,var(--court),var(--court-deep))}
+.nextcard .courtlines{position:absolute;right:-30px;bottom:-12px;width:220px;opacity:.22}
+.nextcard .lbl{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--ball)}
+.nextcard .big{font-family:var(--f-display);font-weight:900;font-style:italic;font-stretch:80%;font-size:30px;line-height:1.05;margin:4px 0 8px}
+.nextcard .row{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;font-size:14.5px;position:relative}
+.nextcard .row dt{opacity:.75}
+.nextcard .row dd{margin:0;font-weight:600}
+.timeline{display:grid;gap:10px;margin-top:6px}
+.tl{display:grid;grid-template-columns:54px 1fr auto;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--hair);border-radius:14px;padding:12px}
+.tl .tt{text-align:center}
+.tl .tt .n{font-family:var(--f-display);font-weight:800;font-stretch:80%;font-size:20px;line-height:1}
+.tl .tt .h{font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.tl .who{min-width:0;font-size:14px}
+.tl .who b{font-weight:700}
+.tl .who .vs{color:var(--muted);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.res{display:grid;justify-items:end;gap:3px}
+.res .sc{font-family:var(--f-display);font-weight:800;font-stretch:75%;font-size:22px;font-variant-numeric:tabular-nums;line-height:1}
+.badge{font-size:11px;font-weight:800;border-radius:6px;padding:2px 7px;letter-spacing:.04em}
+.badge.v{background:var(--win-bg);color:var(--win)}
+.badge.d{background:var(--surface-2);color:var(--muted)}
+.badge.n{background:var(--surface-2);color:var(--warn)}
+.badge.live{background:var(--live);color:#fff}
+.tl .go{border:1px solid var(--hair);background:var(--surface-2);border-radius:10px;padding:8px 10px;font-weight:700;font-size:13px;color:var(--court)}
+@media (prefers-color-scheme: dark){ .tl .go{color:#9cc2ff} }
+
+/* ---------- Classement ---------- */
+.podium{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:8px;align-items:end;margin-bottom:14px}
+.pod{background:var(--surface);border:1px solid var(--hair);border-radius:16px;padding:12px 8px;text-align:center;min-width:0}
+.pod .rk{font-family:var(--f-display);font-weight:900;font-style:italic;font-size:26px;line-height:1}
+.pod .nm{font-weight:700;font-size:13.5px;line-height:1.2;margin:6px 0 2px;overflow-wrap:anywhere}
+.pod .mv{font-size:12px;color:var(--muted)}
+.pod.p1{background:linear-gradient(170deg,var(--court),var(--court-deep));color:#fff;border-color:transparent;padding-block:18px}
+.pod.p1 .rk{color:var(--ball);font-size:34px}
+.pod.p1 .mv{color:#fff;opacity:.8}
+.ranking{background:var(--surface);border:1px solid var(--hair);border-radius:var(--r);overflow:hidden}
+.rrow{display:grid;grid-template-columns:34px 1fr 30px 30px 40px 52px;gap:6px;align-items:center;padding:10px 12px;border-top:1px solid var(--hair);font-variant-numeric:tabular-nums}
+.rrow:first-child{border-top:0}
+.rrow.head{background:var(--surface-2);font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700;padding-block:8px}
+.rrow .rk{font-family:var(--f-display);font-weight:800;font-stretch:80%;font-size:18px;text-align:center}
+.rrow .nm{font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rrow .c{text-align:center;font-size:14px}
+.rrow .moy{text-align:right;font-family:var(--f-display);font-weight:800;font-stretch:80%;font-size:18px}
+.rrow.me{background:color-mix(in srgb,var(--ball) 28%,var(--surface))}
+.rrow.wait .nm,.rrow.wait .c,.rrow.wait .moy,.rrow.wait .rk{color:var(--muted)}
+.note{font-size:12.5px;color:var(--muted);margin:10px 2px 0}
+
+.empty{background:var(--surface);border:1px dashed var(--hair);border-radius:var(--r);padding:22px 18px;text-align:center}
+.empty h3{margin:6px 0 4px;font-family:var(--f-display);font-stretch:85%;font-size:20px}
+.empty p{margin:0;color:var(--muted)}
+
+/* ---------- Barre d'onglets ---------- */
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(12px);border-top:1px solid var(--hair);padding-bottom:env(safe-area-inset-bottom,0px)}
+.tabbar .wrap{display:grid;grid-template-columns:repeat(3,1fr);height:var(--tabbar)}
+.tab{border:0;background:none;display:grid;justify-items:center;align-content:center;gap:3px;font-size:11.5px;font-weight:700;color:var(--muted);letter-spacing:.02em}
+.tab svg{width:24px;height:24px}
+.tab[aria-current="page"]{color:var(--court)}
+@media (prefers-color-scheme: dark){ .tab[aria-current="page"]{color:#9cc2ff} }
+
+/* ---------- Feuille de saisie ---------- */
+.backdrop{position:fixed;inset:0;z-index:30;background:rgba(5,12,25,.5);display:flex;align-items:flex-end;justify-content:center}
+.sheet{width:100%;max-width:560px;background:var(--surface);border-radius:22px 22px 0 0;padding:10px 18px calc(18px + env(safe-area-inset-bottom,0px));padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px));box-shadow:0 -10px 40px rgba(0,0,0,.25);animation:up .22s ease-out;max-height:92vh;overflow:auto}
+@keyframes up{from{transform:translateY(30px);opacity:.4}}
+.grab{width:42px;height:5px;border-radius:3px;background:var(--hair);margin:0 auto 12px}
+.sheet h3{margin:0;font-family:var(--f-display);font-stretch:85%;font-weight:800;font-size:22px}
+.sheet .sub{color:var(--muted);font-size:13.5px;margin:2px 0 14px}
+.sline{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--hair)}
+.sline .names span{font-size:15px}
+.stepper{display:flex;align-items:center;gap:6px;flex:none}
+.stepper button{width:44px;height:44px;border-radius:12px;border:1px solid var(--hair);background:var(--surface-2);font-size:24px;font-weight:700;line-height:1;color:var(--court)}
+@media (prefers-color-scheme: dark){ .stepper button{color:#9cc2ff} }
+.stepper input{width:58px;height:52px;text-align:center;border:2px solid var(--hair);border-radius:12px;background:var(--surface);font-family:var(--f-display);font-weight:800;font-stretch:75%;font-size:30px;font-variant-numeric:tabular-nums;-moz-appearance:textfield}
+.stepper input::-webkit-outer-spin-button,.stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.byline{display:grid;gap:6px;margin:6px 0 14px}
+.byline label{font-size:13px;color:var(--muted);font-weight:600}
+.byline input{border:1px solid var(--hair);background:var(--surface);border-radius:12px;padding:11px 12px;font-size:16px}
+.sheet .actions{display:grid;gap:8px}
+.sheet .err{color:var(--live);font-size:13.5px;font-weight:600;min-height:1em;margin:0 0 8px}
+.sheet .prev{font-size:12.5px;color:var(--muted);margin:-6px 0 10px}
+.hist{margin-top:16px;border-top:1px solid var(--hair);padding-top:12px}
+.hist h4{margin:0 0 6px;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.hist ol{margin:0;padding-left:18px;display:grid;gap:3px;font-size:13.5px}
+.hist .num{font-size:15px}
+
+.toast{position:fixed;left:50%;bottom:calc(var(--tabbar) + env(safe-area-inset-bottom,0px) + 14px);transform:translateX(-50%);z-index:40;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-weight:600;font-size:14px;box-shadow:var(--shadow);max-width:calc(100% - 32px);text-align:center}
+.sync{font-size:12px;color:var(--muted);text-align:center;margin:18px 0 4px}
+.sync.off{color:var(--live);font-weight:600}
+footer.foot{font-size:12px;color:var(--muted);text-align:center;margin:10px 0 0}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+@media (min-width:640px){ .stats{gap:12px} .matches{gap:14px} }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="court" viewBox="0 0 200 100"><rect x="2" y="2" width="196" height="96" rx="3" fill="none" stroke="currentColor" stroke-width="3"/><line x1="100" y1="0" x2="100" y2="100" stroke="currentColor" stroke-width="4" stroke-dasharray="6 4"/><line x1="31" y1="2" x2="31" y2="98" stroke="currentColor" stroke-width="2.5"/><line x1="169" y1="2" x2="169" y2="98" stroke="currentColor" stroke-width="2.5"/><line x1="31" y1="50" x2="169" y2="50" stroke="currentColor" stroke-width="2.5"/></symbol>
+  </defs>
+</svg>
+
+<header class="hero">
+  <svg class="courtlines" viewBox="0 0 200 100" aria-hidden="true" style="color:#fff"><use href="#court"/></svg>
+  <div class="wrap">
+    <div class="brand">
+      <div class="logo"><img src="logo.jpg" alt="Maurice Accueil" width="64" height="64"></div>
+      <div>
+        <h1>Fun <b>Padel</b></h1>
+        <p>Maurice Accueil · samedi 7 novembre</p>
+      </div>
+      <button class="share" id="share" type="button" aria-label="Partager le lien du tournoi">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="m7 8 5-5 5 5"/></svg>
+        Partager
+      </button>
+    </div>
+    <div class="status" id="status" role="status" aria-live="polite"></div>
+    <div class="facts"><span>14h00 – 17h44</span><span>3 terrains</span><span>38 joueurs</span><span>12 min de jeu</span></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="view" id="view-matchs" aria-label="Matchs"></section>
+  <section class="view" id="view-moi" aria-label="Mes matchs" hidden></section>
+  <section class="view" id="view-classement" aria-label="Classement" hidden></section>
+  <p class="sync" id="sync"></p>
+  <footer class="foot">Scores saisis par les joueurs. Une erreur ? Corrigez simplement le score du match.</footer>
+</main>
+
+<nav class="tabbar" aria-label="Navigation">
+  <div class="wrap">
+    <button class="tab" data-tab="matchs" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M12 5v14M7 5v14M17 5v14M7 12h10"/></svg>
+      Matchs
+    </button>
+    <button class="tab" data-tab="moi" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>
+      Mes matchs
+    </button>
+    <button class="tab" data-tab="classement" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M17 6h3a3 3 0 0 1-3 4M7 6H4a3 3 0 0 0 3 4"/></svg>
+      Classement
+    </button>
+  </div>
+</nav>
+
+<div id="sheet-root"></div>
+<div id="toast-root"></div>
+
+<script>
+"use strict";
+/* ---------- Données du tournoi (issues du fichier Excel) ---------- */
+const API = "https://wglueoafueykmbukrzxt.supabase.co/rest/v1/fun_padel_scores";
+const KEY = "sb_publishable_SjqUKXdhs6Idt3OJLjOz0w_vV971dct";
+const P = ["Franck Volant","Sylvia Zaouche","Laurent Zaouche","Virginie Secco","Aurore Lelouch","Marie Laure Glow","Aurélia Guérillot","Laure Masseau Raxach","Marie Feuillard","Aurélie Sebag","Claire Rey","Carine Miremont","Philippe Marthey","Aurore Nony","Sophie Ricard","Gaetan Falesse","Pierrick Secco","Magdou Thiam","Nicolas Ballejos","Fabienne Thoreux","Vinciane Costes","Damien Baverel","Laurent Masseau","Joel Touret","Alnoor Mandjee","Christian Plathey","Emmanuel Derennes","Aurelien Ricard","Mira Piro","Jean-Francois Robert","Sébastien Nony","David Clochette","Christophe Quinta","Claudia Ronchi","Alberto Ronchi","Claude Tempe","Kat Ryst","Pascal Ryst"];
+// [tour, terrain, équipe A joueur 1, A2, B1, B2]
+const M = [[1,1,14,26,11,23],[1,2,28,9,19,12],[1,3,0,33,10,22],[2,1,1,30,3,37],[2,2,13,36,8,18],[2,3,35,21,27,17],[3,1,31,25,34,5],[3,2,2,6,4,7],[3,3,32,20,24,29],[4,1,28,0,14,9],[4,2,15,16,10,33],[4,3,12,23,19,11],[5,1,21,36,35,1],[5,2,30,13,17,26],[5,3,37,8,18,22],[6,1,3,29,11,4],[6,2,20,24,31,6],[6,3,34,2,5,27],[7,1,12,28,16,33],[7,2,0,25,23,7],[7,3,32,9,14,15],[8,1,10,37,35,8],[8,2,21,30,22,34],[8,3,19,17,1,26],[9,1,29,6,31,2],[9,2,13,24,36,5],[9,3,18,20,3,11],[10,1,0,32,8,25],[10,2,12,15,7,27],[10,3,9,23,4,16],[11,1,17,30,33,19],[11,2,21,2,10,14],[11,3,28,34,35,37],[12,1,5,22,36,3],[12,2,18,24,1,29],[12,3,13,26,20,6],[13,1,32,7,27,9],[13,2,25,11,31,8],[13,3,16,0,4,15],[14,1,10,34,23,19],[14,2,37,14,17,33],[14,3,12,21,30,2],[15,1,29,18,27,22],[15,2,20,26,5,35],[15,3,28,3,24,6],[16,1,0,15,13,1],[16,2,16,32,11,31],[16,3,25,7,4,36]];
+const NT = 16, SLOT = 14, PLAY = 12;           // minutes
+const T0 = Date.UTC(2026, 10, 7, 10, 0, 0);    // 14h00 heure de Maurice (UTC+4)
+const MIN = 60000;
+
+/* ---------- Utilitaires ---------- */
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const hm = m => `${Math.floor(m / 60)}h${String(m % 60).padStart(2, "0")}`;
+const startMin = t => 14 * 60 + SLOT * (t - 1);
+const tourLabel = t => `${hm(startMin(t))} – ${hm(startMin(t) + PLAY)}`;
+const clockMu = ms => { const d = new Date(ms + 4 * 3600e3); return `${d.getUTCHours()}h${String(d.getUTCMinutes()).padStart(2, "0")}`; };
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
+};
+const matchesOfTour = t => M.map((m, i) => i).filter(i => M[i][0] === t);
+const playersOf = i => M[i].slice(2);
+
+/* ---------- État ---------- */
+let rows = store.get("fp_rows", []);
+let scores = {};               // index match -> {a, b, by, at}
+let me = store.get("fp_me", null);
+let tab = "matchs";
+let selTour = null;
+let lastSync = store.get("fp_sync", 0);
+let online = true;
+let restOpen = false;
+
+function rebuild() {
+  scores = {};
+  for (const r of rows) {
+    if (r.score_a === null || r.score_b === null) delete scores[r.match];
+    else scores[r.match] = { a: r.score_a, b: r.score_b, by: r.saisi_par || "", at: Date.parse(r.created_at) };
+  }
+}
+
+/* ---------- Horloge du tournoi ---------- */
+function phase(now = Date.now()) {
+  const d = (now - T0) / MIN;
+  if (d < 0) return { kind: "pre", tour: 1, inMin: -d };
+  const i = Math.floor(d / SLOT), into = d - i * SLOT;
+  if (i >= NT || (i === NT - 1 && into >= PLAY)) return { kind: "done", tour: NT };
+  if (into < PLAY) return { kind: "live", tour: i + 1, left: PLAY - into };
+  return { kind: "change", tour: i + 2, left: SLOT - into };
+}
+function tourState(t, now = Date.now()) {
+  const s = T0 + (t - 1) * SLOT * MIN, e = s + PLAY * MIN;
+  if (now >= e) return "done";
+  if (now >= s) return "live";
+  return "next";
+}
+const fmtLeft = m => m >= 60 ? `${Math.floor(m / 60)} h ${String(Math.floor(m % 60)).padStart(2, "0")}` : `${Math.max(1, Math.ceil(m))} min`;
+
+function renderStatus() {
+  const p = phase(), el = $("#status");
+  el.className = "status" + (p.kind === "live" ? " live" : "");
+  let t1, t2, clock = "", cap = "";
+  if (p.kind === "pre") { t1 = "Premier match à 14h00"; t2 = "Tour 1 sur 16 · consultez « Mes matchs »"; clock = fmtLeft(p.inMin); cap = "avant le début"; }
+  else if (p.kind === "live") { t1 = `Tour ${p.tour} en cours`; t2 = `Fin du jeu à ${hm(startMin(p.tour) + PLAY)} · tour ${p.tour} sur 16`; clock = `${Math.ceil(p.left)}′`; cap = "restantes"; }
+  else if (p.kind === "change") { t1 = "Changement de terrain"; t2 = `Tour ${p.tour} à ${hm(startMin(p.tour))}`; clock = `${Math.ceil(p.left)}′`; cap = "avant reprise"; }
+  else { t1 = "Tournoi terminé"; t2 = "Bravo à tous les joueurs !"; }
+  el.innerHTML = `<span class="dot"></span><div><div class="t1">${t1}</div><div class="t2">${t2}</div></div>` +
+    (clock ? `<div class="clock num">${clock}<small>${cap}</small></div>` : "");
+}
+
+/* ---------- Statistiques et classement ---------- */
+function computeStats() {
+  const st = P.map((n, id) => ({ id, name: n, j: 0, v: 0, nul: 0, pts: 0, diff: 0, planned: 0 }));
+  M.forEach((m, i) => {
+    playersOf(i).forEach(p => st[p].planned++);
+    const s = scores[i]; if (!s) return;
+    const A = [m[2], m[3]], B = [m[4], m[5]];
+    for (const [team, f, c] of [[A, s.a, s.b], [B, s.b, s.a]]) for (const p of team) {
+      const x = st[p]; x.j++; x.pts += f; x.diff += f - c;
+      if (f > c) x.v++; else if (f === c) x.nul++;
+    }
+  });
+  const ranked = st.filter(x => x.j > 0).map(x => ({ ...x, moy: x.pts / x.j }))
+    .sort((a, b) => b.moy - a.moy || b.diff - a.diff || b.pts - a.pts || a.name.localeCompare(b.name, "fr"));
+  let rank = 0, prev = null;
+  ranked.forEach((x, k) => { if (!prev || x.moy !== prev.moy || x.diff !== prev.diff) rank = k + 1; x.rank = rank; prev = x; });
+  const waiting = st.filter(x => x.j === 0).sort((a, b) => a.name.localeCompare(b.name, "fr"));
+  return { st, ranked, waiting };
+}
+const fmtMoy = v => v.toFixed(1).replace(".", ",");
+
+/* ---------- Vue Matchs ---------- */
+function nameSpan(p) { return `<span class="${p === me ? "me" : ""}">${esc(P[p])}</span>`; }
+function matchCard(i, opts = {}) {
+  const m = M[i], s = scores[i], ts = tourState(m[0]);
+  const aWin = s && s.a > s.b, bWin = s && s.b > s.a;
+  const cls = w => s ? (w ? " win" : (s.a === s.b ? "" : " lose")) : "";
+  const sc = v => s ? `<div class="score">${v}</div>` : `<div class="score empty">–</div>`;
+  const meta = s ? `Saisi${s.by ? " par " + esc(s.by) : ""} à ${clockMu(s.at)}` :
+    (ts === "live" ? "Match en cours" : ts === "done" ? "Score pas encore saisi" : `Début à ${hm(startMin(m[0]))}`);
+  const btn = s ? `<button class="btn ghost" data-enter="${i}" type="button">Corriger</button>`
+               : `<button class="btn ${ts === "next" ? "ghost" : "primary"}" data-enter="${i}" type="button">Saisir le score</button>`;
+  return `<article class="match">
+    <header><span class="court-tag"><svg aria-hidden="true" style="color:var(--court)"><use href="#court"/></svg>Terrain ${m[1]}</span>
+      <span class="when">${opts.showTour ? `Tour ${m[0]} · ` : ""}${hm(startMin(m[0]))}</span></header>
+    <div class="team${cls(aWin)}"><div class="names">${nameSpan(m[2])}${nameSpan(m[3])}</div>${sc(s && s.a)}</div>
+    <div class="team${cls(bWin)}"><div class="names">${nameSpan(m[4])}${nameSpan(m[5])}</div>${sc(s && s.b)}</div>
+    <footer><span class="meta">${meta}</span>${btn}</footer>
+  </article>`;
+}
+function renderMatchs() {
+  const p = phase();
+  if (selTour === null) selTour = p.tour;
+  const chips = Array.from({ length: NT }, (_, k) => {
+    const t = k + 1, st = tourState(t), full = matchesOfTour(t).every(i => scores[i]);
+    const cls = ["chip", st === "done" ? "past" : "", st === "live" ? "live" : "", full ? "full" : "", t === selTour ? "sel" : ""].join(" ");
+    return `<button class="${cls}" data-tour="${t}" type="button" aria-pressed="${t === selTour}"><span class="n">T${t}</span><span class="h">${st === "live" ? "en jeu" : hm(startMin(t))}</span></button>`;
+  }).join("");
+  const st = tourState(selTour);
+  const pill = st === "live" ? `<span class="pill live">● En jeu</span>` :
+    st === "done" ? `<span class="pill done">Terminé</span>` :
+    (p.kind === "change" && p.tour === selTour) || (p.kind === "pre" && selTour === 1) ? `<span class="pill next">Prochain tour</span>` : `<span class="pill done">À venir</span>`;
+  const ids = matchesOfTour(selTour), playing = new Set(ids.flatMap(playersOf));
+  const rest = P.map((n, id) => id).filter(id => !playing.has(id)).sort((a, b) => P[a].localeCompare(P[b], "fr"));
+  $("#view-matchs").innerHTML = `
+    <div class="tours"><div class="tour-strip" id="strip">${chips}</div></div>
+    <div class="tour-head"><h2>Tour ${selTour}</h2><span class="when">${tourLabel(selTour)}</span>${pill}</div>
+    <div class="matches">${ids.map(i => matchCard(i)).join("")}</div>
+    <details class="rest"${restOpen ? " open" : ""}><summary>Au repos pendant ce tour (${rest.length})</summary>
+      <div class="restlist">${rest.map(id => `<span class="${id === me ? "me" : ""}">${esc(P[id])}</span>`).join("")}</div></details>`;
+  $("#view-matchs details.rest").addEventListener("toggle", e => { restOpen = e.target.open; });
+  const sel = $("#strip .sel");
+  if (sel) sel.scrollIntoView({ block: "nearest", inline: "center" });
+}
+
+/* ---------- Vue Mes matchs ---------- */
+function renderMoi() {
+  const v = $("#view-moi");
+  if (me === null) {
+    v.innerHTML = `<div class="section-title"><h2>Qui êtes-vous ?</h2><span class="aside">Choix gardé sur ce téléphone</span></div>
+      <div class="picker"><input class="search" id="who" type="search" placeholder="Tapez votre prénom" autocomplete="off" aria-label="Rechercher votre nom">
+      <div class="namegrid" id="names"></div></div>`;
+    const list = () => {
+      const q = ($("#who").value || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+      $("#names").innerHTML = P.map((n, id) => ({ n, id })).sort((a, b) => a.n.localeCompare(b.n, "fr"))
+        .filter(x => x.n.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().includes(q))
+        .map(x => `<button type="button" data-me="${x.id}">${esc(x.n)}</button>`).join("");
+    };
+    list(); $("#who").addEventListener("input", list);
+    return;
+  }
+  const { st, ranked } = computeStats(), mine = st[me], r = ranked.find(x => x.id === me);
+  const my = M.map((m, i) => i).filter(i => playersOf(i).includes(me));
+  const now = Date.now();
+  const next = my.find(i => tourState(M[i][0], now) !== "done");
+  let nextHtml = "";
+  if (next !== undefined) {
+    const m = M[next], onA = m[2] === me || m[3] === me;
+    const partner = onA ? (m[2] === me ? m[3] : m[2]) : (m[4] === me ? m[5] : m[4]);
+    const opp = onA ? [m[4], m[5]] : [m[2], m[3]];
+    const startMs = T0 + (m[0] - 1) * SLOT * MIN, live = tourState(m[0], now) === "live";
+    const when = live ? "En jeu maintenant" : `Dans ${fmtLeft((startMs - now) / MIN)}`;
+    nextHtml = `<div class="nextcard"><svg class="courtlines" viewBox="0 0 200 100" aria-hidden="true" style="color:#fff"><use href="#court"/></svg>
+      <div class="lbl">${live ? "● Match en cours" : "Prochain match"}</div>
+      <div class="big">Terrain ${m[1]} · ${hm(startMin(m[0]))}</div>
+      <dl class="row"><dt>Tour</dt><dd>${m[0]} sur 16 · ${when}</dd><dt>Partenaire</dt><dd>${esc(P[partner])}</dd><dt>Adversaires</dt><dd>${esc(P[opp[0]])} et ${esc(P[opp[1]])}</dd></dl></div>`;
+  } else {
+    nextHtml = `<div class="nextcard"><div class="lbl">Vos matchs</div><div class="big">Tous joués, bravo !</div></div>`;
+  }
+  const tl = my.map(i => {
+    const m = M[i], onA = m[2] === me || m[3] === me;
+    const partner = onA ? (m[2] === me ? m[3] : m[2]) : (m[4] === me ? m[5] : m[4]);
+    const opp = onA ? [m[4], m[5]] : [m[2], m[3]];
+    const s = scores[i], ts = tourState(m[0], now);
+    let res;
+    if (s) {
+      const f = onA ? s.a : s.b, c = onA ? s.b : s.a;
+      const b = f > c ? `<span class="badge v">VICTOIRE</span>` : f < c ? `<span class="badge d">DÉFAITE</span>` : `<span class="badge n">NUL</span>`;
+      res = `<div class="res"><span class="sc">${f}-${c}</span>${b}</div>`;
+    } else if (ts === "next") res = `<div class="res"><span class="badge d">À VENIR</span></div>`;
+    else res = `<button class="go" type="button" data-enter="${i}">${ts === "live" ? "En jeu" : "Saisir"}</button>`;
+    return `<div class="tl"><div class="tt"><div class="n">T${m[0]}</div><div class="h">${hm(startMin(m[0]))}</div></div>
+      <div class="who"><div>Terrain ${m[1]} · avec <b>${esc(P[partner])}</b></div><div class="vs">contre ${esc(P[opp[0]])} et ${esc(P[opp[1]])}</div></div>${res}</div>`;
+  }).join("");
+  v.innerHTML = `<div class="hello"><h2>${esc(P[me].split(" ")[0])}</h2><button class="linkbtn" type="button" data-unme>Changer de joueur</button></div>
+    <div class="stats">
+      <div class="stat"><div class="v">${r ? r.rank : "–"}</div><div class="k">Rang</div></div>
+      <div class="stat"><div class="v">${r ? fmtMoy(r.moy) : "–"}</div><div class="k">Moyenne</div></div>
+      <div class="stat"><div class="v">${mine.j}/${mine.planned}</div><div class="k">Joués</div></div>
+      <div class="stat"><div class="v">${mine.v}</div><div class="k">Victoires</div></div>
+    </div>
+    ${nextHtml}
+    <div class="section-title"><h2>Mes ${mine.planned} matchs</h2><span class="aside">${mine.pts} points marqués</span></div>
+    <div class="timeline">${tl}</div>`;
+}
+
+/* ---------- Vue Classement ---------- */
+function renderClassement() {
+  const { ranked, waiting } = computeStats(), v = $("#view-classement");
+  const n = Object.keys(scores).length;
+  if (!ranked.length) {
+    v.innerHTML = `<div class="section-title"><h2>Classement</h2><span class="aside">0 match sur 48</span></div>
+      <div class="empty"><svg width="44" height="22" aria-hidden="true" style="color:var(--court)"><use href="#court"/></svg>
+      <h3>Le classement démarre au premier score</h3><p>Après chaque match, un joueur saisit le score depuis l'onglet Matchs. Le classement se met à jour tout seul.</p></div>`;
+    return;
+  }
+  const pod = ranked.slice(0, 3);
+  const podHtml = pod.length === 3 ? `<div class="podium">${[1, 0, 2].map(k => {
+    const x = pod[k];
+    return `<div class="pod p${k + 1}"><div class="rk">${x.rank}</div><div class="nm">${esc(x.name)}</div><div class="mv">${fmtMoy(x.moy)} pts/match</div></div>`;
+  }).join("")}</div>` : "";
+  const row = x => `<div class="rrow${x.id === me ? " me" : ""}"><span class="rk">${x.rank}</span><span class="nm">${esc(x.name)}</span>
+    <span class="c">${x.j}</span><span class="c">${x.v}</span><span class="c">${x.diff > 0 ? "+" : ""}${x.diff}</span><span class="moy">${fmtMoy(x.moy)}</span></div>`;
+  const wrow = x => `<div class="rrow wait${x.id === me ? " me" : ""}"><span class="rk">–</span><span class="nm">${esc(x.name)}</span><span class="c">0</span><span class="c">–</span><span class="c">–</span><span class="moy">–</span></div>`;
+  v.innerHTML = `<div class="section-title"><h2>Classement</h2><span class="aside">${n} match${n > 1 ? "s" : ""} sur 48</span></div>
+    ${podHtml}
+    <div class="ranking"><div class="rrow head"><span>#</span><span>Joueur</span><span class="c">J</span><span class="c">V</span><span class="c">+/-</span><span style="text-align:right">Moy.</span></div>
+    ${ranked.map(row).join("")}${waiting.map(wrow).join("")}</div>
+    <p class="note">Classement à la moyenne de points par match, puis à la différence de points. La moyenne compense les 6 matchs de Franck et Carine. J = joués, V = victoires.</p>`;
+}
+
+/* ---------- Saisie du score ---------- */
+let sheetMatch = null;
+function openSheet(i) {
+  sheetMatch = i;
+  const m = M[i], s = scores[i];
+  const hist = rows.filter(r => r.match === i).reverse();
+  const team = (a, b, id, v) => `<div class="sline"><div class="names">${nameSpan(a)}${nameSpan(b)}</div>
+    <div class="stepper"><button type="button" data-step="${id}" data-d="-1" aria-label="Moins un point">−</button>
+    <input id="${id}" type="number" inputmode="numeric" min="0" max="99" value="${v}" aria-label="Points de ${esc(P[a])} et ${esc(P[b])}">
+    <button type="button" data-step="${id}" data-d="1" aria-label="Plus un point">+</button></div></div>`;
+  $("#sheet-root").innerHTML = `<div class="backdrop" id="bd"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sh-t">
+    <div class="grab"></div>
+    <h3 id="sh-t">Tour ${m[0]} · Terrain ${m[1]}</h3>
+    <p class="sub">${tourLabel(m[0])} · points marqués par chaque équipe</p>
+    ${s ? `<p class="prev">Score actuel ${s.a}-${s.b}${s.by ? ", saisi par " + esc(s.by) : ""} à ${clockMu(s.at)}</p>` : ""}
+    ${team(m[2], m[3], "sa", s ? s.a : 0)}
+    ${team(m[4], m[5], "sb", s ? s.b : 0)}
+    <div class="byline"><label for="by">Saisi par (facultatif)</label><input id="by" type="text" maxlength="60" autocomplete="name" value="${me !== null ? esc(P[me]) : ""}" placeholder="Votre prénom"></div>
+    <p class="err" id="err"></p>
+    <div class="actions"><button class="btn primary block" id="save" type="button">Enregistrer le score</button>
+    ${s ? `<button class="btn ghost block" id="clear" type="button">Effacer ce score</button>` : ""}
+    <button class="btn ghost block" id="cancel" type="button">Annuler</button></div>
+    ${hist.length ? `<div class="hist"><h4>Historique des saisies</h4><ol>${hist.map(r => `<li><span class="num">${r.score_a === null ? "effacé" : r.score_a + "-" + r.score_b}</span> ${r.saisi_par ? "par " + esc(r.saisi_par) : "anonyme"} · ${clockMu(Date.parse(r.created_at))}</li>`).join("")}</ol></div>` : ""}
+  </div></div>`;
+  document.body.style.overflow = "hidden";
+}
+function closeSheet() { $("#sheet-root").innerHTML = ""; document.body.style.overflow = ""; sheetMatch = null; }
+async function send(i, a, b, by) {
+  const res = await fetch(API, { method: "POST", headers: { apikey: KEY, Authorization: `Bearer ${KEY}`, "Content-Type": "application/json", Prefer: "return=minimal" },
+    body: JSON.stringify({ match: i, score_a: a, score_b: b, saisi_par: by || null }) });
+  if (!res.ok) throw new Error(String(res.status));
+}
+async function saveSheet(clear) {
+  const i = sheetMatch, err = $("#err");
+  let a = null, b = null;
+  if (!clear) {
+    a = Number($("#sa").value); b = Number($("#sb").value);
+    if (!Number.isInteger(a) || !Number.isInteger(b) || a < 0 || b < 0 || a > 99 || b > 99) { err.textContent = "Entrez deux nombres entiers entre 0 et 99."; return; }
+  }
+  const by = $("#by").value.trim().slice(0, 60);
+  const btn = $(clear ? "#clear" : "#save"); btn.disabled = true; btn.textContent = "Envoi…";
+  try {
+    await send(i, a, b, by);
+    rows.push({ match: i, score_a: a, score_b: b, saisi_par: by, created_at: new Date().toISOString() }); rebuild();
+    closeSheet(); render(); toast(clear ? "Score effacé" : "Score enregistré, merci !");
+    refresh();
+  } catch {
+    err.textContent = "Envoi impossible. Vérifiez votre connexion puis réessayez.";
+    btn.disabled = false; btn.textContent = clear ? "Effacer ce score" : "Enregistrer le score";
+  }
+}
+
+/* ---------- Synchronisation ---------- */
+async function refresh() {
+  try {
+    const res = await fetch(`${API}?select=match,score_a,score_b,saisi_par,created_at&order=id.asc`, { headers: { apikey: KEY, Authorization: `Bearer ${KEY}` }, cache: "no-store" });
+    if (!res.ok) throw new Error(String(res.status));
+    const fresh = await res.json(), sig = r => r.length + "|" + (r.length ? r[r.length - 1].created_at : "");
+    const changed = sig(fresh) !== sig(rows);
+    rows = fresh; lastSync = Date.now(); online = true;
+    store.set("fp_rows", rows); store.set("fp_sync", lastSync);
+    rebuild(); if (changed && sheetMatch === null) render(); else renderSync();
+  } catch { online = false; renderSync(); }
+}
+function renderSync() {
+  const el = $("#sync");
+  el.className = "sync" + (online ? "" : " off");
+  el.textContent = online ? (lastSync ? `Scores à jour à ${clockMu(lastSync)} · actualisation automatique` : "Chargement des scores…")
+    : `Hors connexion · derniers scores de ${lastSync ? clockMu(lastSync) : "?"}`;
+}
+
+/* ---------- Rendu et navigation ---------- */
+function render() {
+  renderStatus();
+  document.querySelectorAll(".tab").forEach(b => b.setAttribute("aria-current", b.dataset.tab === tab ? "page" : "false"));
+  for (const t of ["matchs", "moi", "classement"]) $("#view-" + t).hidden = t !== tab;
+  if (tab === "matchs") renderMatchs(); else if (tab === "moi") renderMoi(); else renderClassement();
+  renderSync();
+}
+function go(t) { tab = t; if (location.hash !== "#" + t) history.replaceState(null, "", "#" + t); render(); window.scrollTo({ top: 0 }); }
+let toastTimer;
+function toast(msg) { const r = $("#toast-root"); r.innerHTML = `<div class="toast" role="status">${esc(msg)}</div>`; clearTimeout(toastTimer); toastTimer = setTimeout(() => r.innerHTML = "", 2600); }
+
+document.addEventListener("click", e => {
+  const t = e.target.closest("[data-tab],[data-tour],[data-enter],[data-me],[data-unme],[data-step],#save,#clear,#cancel,#bd,#share");
+  if (!t) return;
+  if (t.id === "bd") { if (e.target === t) closeSheet(); return; }
+  if (t.dataset.tab) go(t.dataset.tab);
+  else if (t.dataset.tour) { selTour = Number(t.dataset.tour); renderMatchs(); }
+  else if (t.dataset.enter !== undefined) openSheet(Number(t.dataset.enter));
+  else if (t.dataset.me !== undefined) { me = Number(t.dataset.me); store.set("fp_me", me); render(); window.scrollTo({ top: 0 }); }
+  else if (t.hasAttribute("data-unme")) { me = null; store.set("fp_me", null); render(); }
+  else if (t.dataset.step) { const inp = $("#" + t.dataset.step); inp.value = Math.min(99, Math.max(0, (Number(inp.value) || 0) + Number(t.dataset.d))); }
+  else if (t.id === "save") saveSheet(false);
+  else if (t.id === "clear") saveSheet(true);
+  else if (t.id === "cancel") closeSheet();
+  else if (t.id === "share") share();
+});
+document.addEventListener("keydown", e => { if (e.key === "Escape" && sheetMatch !== null) closeSheet(); });
+async function share() {
+  const url = location.origin + location.pathname;
+  if (navigator.share) { try { await navigator.share({ title: "Fun Padel Maurice Accueil", text: "Planning, scores et classement du Fun Padel", url }); } catch {} return; }
+  try { await navigator.clipboard.writeText(url); toast("Lien copié"); } catch { toast(url); }
+}
+
+const h = location.hash.slice(1);
+if (["matchs", "moi", "classement"].includes(h)) tab = h;
+else if (me === null) tab = "moi";
+rebuild(); render(); refresh();
+setInterval(() => { if (document.visibilityState === "visible") refresh(); }, 15000);
+setInterval(() => { renderStatus(); }, 20000);
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") refresh(); });
+</script>
+</body>
+</html>
