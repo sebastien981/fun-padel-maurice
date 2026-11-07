@@ -98,6 +98,18 @@ main{padding-block:14px 8px}
 .mchip.live{background:var(--live);color:#fff}
 .mchip.sel{outline:2px solid var(--court);outline-offset:1px}
 
+/* Remplacements */
+.rtag{display:inline-block;margin-left:6px;font-size:10px;font-weight:800;text-decoration:none;border-radius:4px;padding:0 4px;vertical-align:2px;background:var(--court);color:#fff}
+.subs{margin-top:14px;background:var(--surface);border:1px solid var(--hair);border-radius:var(--r);padding:14px}
+.subs-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.subs-head h3{margin:0;font-family:var(--f-display);font-stretch:85%;font-size:18px}
+.subs-head p{margin:2px 0 0;font-size:13px;color:var(--muted)}
+.sublist{list-style:none;margin:10px 0 0;padding:10px 0 0;border-top:1px solid var(--hair);display:grid;gap:6px;font-size:14px}
+.sublist li{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.form{display:grid;gap:6px;margin-bottom:12px}
+.form label{font-size:13px;color:var(--muted);font-weight:600;margin-top:6px}
+.form select,.form input{border:1px solid var(--hair);background:var(--surface);border-radius:12px;padding:11px 12px;font-size:16px;width:100%}
+
 /* Bandeau des tours */
 .tours{position:sticky;top:0;z-index:5;background:var(--bg);margin:0 calc(-1*max(16px,env(safe-area-inset-left,0px))) 0;padding:10px max(16px,env(safe-area-inset-left,0px)) 10px;border-bottom:1px solid var(--hair)}
 .tour-strip{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;scroll-snap-type:x proximity;padding-bottom:2px}
@@ -206,11 +218,11 @@ details.rest[open] summary::after{content:"Masquer"}
 .pod.p1 .rk{color:var(--ball);font-size:34px}
 .pod.p1 .mv{color:#fff;opacity:.8}
 .ranking{background:var(--surface);border:1px solid var(--hair);border-radius:var(--r);overflow:hidden}
-.rrow{display:grid;grid-template-columns:34px 1fr 30px 30px 40px 52px;gap:6px;align-items:center;padding:10px 12px;border-top:1px solid var(--hair);font-variant-numeric:tabular-nums}
+.rrow{display:grid;grid-template-columns:30px 1fr 24px 24px 36px 46px;gap:6px;align-items:center;padding:10px 12px;border-top:1px solid var(--hair);font-variant-numeric:tabular-nums}
 .rrow:first-child{border-top:0}
 .rrow.head{background:var(--surface-2);font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700;padding-block:8px}
 .rrow .rk{font-family:var(--f-display);font-weight:800;font-stretch:80%;font-size:18px;text-align:center}
-.rrow .nm{font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rrow .nm{font-weight:600;min-width:0;line-height:1.25;overflow-wrap:anywhere}
 .rrow .c{text-align:center;font-size:14px}
 .rrow .moy{text-align:right;font-family:var(--f-display);font-weight:800;font-stretch:80%;font-size:18px}
 .rrow.me{background:color-mix(in srgb,var(--ball) 28%,var(--surface))}
@@ -322,6 +334,7 @@ footer.foot{font-size:12px;color:var(--muted);text-align:center;margin:10px 0 0}
 /* ---------- Données du tournoi (issues du fichier Excel) ---------- */
 const API = "https://wglueoafueykmbukrzxt.supabase.co/rest/v1/fun_padel_scores";
 const KEY = "sb_publishable_SjqUKXdhs6Idt3OJLjOz0w_vV971dct";
+const REMP = "https://wglueoafueykmbukrzxt.supabase.co/rest/v1/fun_padel_remplacements";
 const P = ["Franck Volant","Sylvia Zaouche","Laurent Zaouche","Virginie Secco","Aurore Lelouch","Marie Laure Glow","Aurélia Guérillot","Laure Masseau Raxach","Marie Feuillard","Aurélie Sebag","Claire Rey","Carine Miremont","Philippe Marthey","Aurore Nony","Sophie Ricard","Gaetan Falesse","Pierrick Secco","Magdou Thiam","Nicolas Ballejos","Fabienne Thoreux","Vinciane Costes","Damien Baverel","Laurent Masseau","Joel Touret","Alnoor Mandjee","Christian Plathey","Emmanuel Derennes","Aurelien Ricard","Mira Piro","Jean-Francois Robert","Sébastien Nony","David Clochette","Christophe Quinta","Claudia Ronchi","Alberto Ronchi","Claude Tempe","Kat Ryst","Pascal Ryst"];
 // [tour, terrain, équipe A joueur 1, A2, B1, B2]
 const M = [[1,1,14,26,11,23],[1,2,28,9,19,12],[1,3,0,33,10,22],[2,1,1,30,3,37],[2,2,13,36,8,18],[2,3,35,21,27,17],[3,1,31,25,34,5],[3,2,2,6,4,7],[3,3,32,20,24,29],[4,1,28,0,14,9],[4,2,15,16,10,33],[4,3,12,23,19,11],[5,1,21,36,35,1],[5,2,30,13,17,26],[5,3,37,8,18,22],[6,1,3,29,11,4],[6,2,20,24,31,6],[6,3,34,2,5,27],[7,1,12,28,16,33],[7,2,0,25,23,7],[7,3,32,9,14,15],[8,1,10,37,35,8],[8,2,21,30,22,34],[8,3,19,17,1,26],[9,1,29,6,31,2],[9,2,13,24,36,5],[9,3,18,20,3,11],[10,1,0,32,8,25],[10,2,12,15,7,27],[10,3,9,23,4,16],[11,1,17,30,33,19],[11,2,21,2,10,14],[11,3,28,34,35,37],[12,1,5,22,36,3],[12,2,18,24,1,29],[12,3,13,26,20,6],[13,1,32,7,27,9],[13,2,25,11,31,8],[13,3,16,0,4,15],[14,1,10,34,23,19],[14,2,37,14,17,33],[14,3,12,21,30,2],[15,1,29,18,27,22],[15,2,20,26,5,35],[15,3,28,3,24,6],[16,1,0,15,13,1],[16,2,16,32,11,31],[16,3,25,7,4,36]];
@@ -352,6 +365,8 @@ let selTour = null;
 let lastSync = store.get("fp_sync", 0);
 let online = true;
 let restOpen = false;
+let repRows = store.get("fp_reps", []);
+let reps = {};                 // joueur -> {name, from, by, at}
 
 function rebuild() {
   scores = {};
@@ -359,7 +374,20 @@ function rebuild() {
     if (r.score_a === null || r.score_b === null) delete scores[r.match];
     else scores[r.match] = { a: r.score_a, b: r.score_b, by: r.saisi_par || "", at: Date.parse(r.created_at) };
   }
+  reps = {};
+  for (const r of repRows) {
+    if (!r.remplacant) delete reps[r.joueur];
+    else reps[r.joueur] = { name: r.remplacant, from: r.a_partir_du_tour, by: r.saisi_par || "", at: Date.parse(r.created_at) };
+  }
 }
+
+/* ---------- Noms et remplacements ---------- */
+// Nom de la personne qui occupe la place du joueur p au tour t
+const nameAt = (p, t) => (reps[p] && t >= reps[p].from) ? reps[p].name : P[p];
+const isRep = (p, t) => !!(reps[p] && t >= reps[p].from);
+const nowTour = () => phase().tour;
+const meName = () => me === null ? null : nameAt(me, nowTour());
+const properName = s => s.trim().replace(/\s+/g, " ").toLowerCase().replace(/(^|[\s-])(\p{L})/gu, (x, a, b) => a + b.toUpperCase());
 
 /* ---------- Horloge du tournoi ---------- */
 function phase(now = Date.now()) {
@@ -391,28 +419,35 @@ function renderStatus() {
 }
 
 /* ---------- Statistiques et classement ---------- */
+// Les points vont à la personne qui a réellement joué (remplaçant inclus), regroupés par nom
 function computeStats() {
-  const st = P.map((n, id) => ({ id, name: n, j: 0, v: 0, nul: 0, pts: 0, diff: 0, planned: 0 }));
+  const byName = new Map();
+  const get = n => { if (!byName.has(n)) byName.set(n, { name: n, j: 0, v: 0, nul: 0, pts: 0, diff: 0, planned: 0 }); return byName.get(n); };
+  P.forEach(n => get(n));
   M.forEach((m, i) => {
-    playersOf(i).forEach(p => st[p].planned++);
+    const names = playersOf(i).map(p => nameAt(p, m[0]));
+    names.forEach(n => get(n).planned++);
     const s = scores[i]; if (!s) return;
-    const A = [m[2], m[3]], B = [m[4], m[5]];
-    for (const [team, f, c] of [[A, s.a, s.b], [B, s.b, s.a]]) for (const p of team) {
-      const x = st[p]; x.j++; x.pts += f; x.diff += f - c;
+    for (const [team, f, c] of [[names.slice(0, 2), s.a, s.b], [names.slice(2), s.b, s.a]]) for (const n of team) {
+      const x = get(n); x.j++; x.pts += f; x.diff += f - c;
       if (f > c) x.v++; else if (f === c) x.nul++;
     }
   });
-  const ranked = st.filter(x => x.j > 0).map(x => ({ ...x, moy: x.pts / x.j }))
+  const all = [...byName.values()].filter(x => x.planned > 0 || x.j > 0);
+  const ranked = all.filter(x => x.j > 0).map(x => ({ ...x, moy: x.pts / x.j }))
     .sort((a, b) => b.moy - a.moy || b.diff - a.diff || b.pts - a.pts || a.name.localeCompare(b.name, "fr"));
   let rank = 0, prev = null;
   ranked.forEach((x, k) => { if (!prev || x.moy !== prev.moy || x.diff !== prev.diff) rank = k + 1; x.rank = rank; prev = x; });
-  const waiting = st.filter(x => x.j === 0).sort((a, b) => a.name.localeCompare(b.name, "fr"));
-  return { st, ranked, waiting };
+  const waiting = all.filter(x => x.j === 0).sort((a, b) => a.name.localeCompare(b.name, "fr"));
+  return { byName, ranked, waiting };
 }
 const fmtMoy = v => v.toFixed(1).replace(".", ",");
 
 /* ---------- Vue Matchs ---------- */
-function nameSpan(p) { return `<span class="${p === me ? "me" : ""}">${esc(P[p])}</span>`; }
+function nameSpan(p, t) {
+  const r = isRep(p, t);
+  return `<span class="${p === me ? "me" : ""}">${esc(nameAt(p, t))}${r ? `<abbr class="rtag" title="Remplace ${esc(P[p])}">R</abbr>` : ""}</span>`;
+}
 function matchCard(i, opts = {}) {
   const m = M[i], s = scores[i], ts = tourState(m[0]);
   const aWin = s && s.a > s.b, bWin = s && s.b > s.a;
@@ -425,8 +460,8 @@ function matchCard(i, opts = {}) {
   return `<article class="match">
     <header><span class="court-tag"><svg aria-hidden="true" style="color:var(--court)"><use href="#court"/></svg>Terrain ${m[1]}</span>
       <span class="when">${opts.showTour ? `Tour ${m[0]} · ` : ""}${hm(startMin(m[0]))}</span></header>
-    <div class="team${cls(aWin)}"><div class="names">${nameSpan(m[2])}${nameSpan(m[3])}</div>${sc(s && s.a)}</div>
-    <div class="team${cls(bWin)}"><div class="names">${nameSpan(m[4])}${nameSpan(m[5])}</div>${sc(s && s.b)}</div>
+    <div class="team${cls(aWin)}"><div class="names">${nameSpan(m[2], m[0])}${nameSpan(m[3], m[0])}</div>${sc(s && s.a)}</div>
+    <div class="team${cls(bWin)}"><div class="names">${nameSpan(m[4], m[0])}${nameSpan(m[5], m[0])}</div>${sc(s && s.b)}</div>
     <footer><span class="meta">${meta}</span>${btn}</footer>
   </article>`;
 }
@@ -443,14 +478,21 @@ function renderMatchs() {
     st === "done" ? `<span class="pill done">Terminé</span>` :
     (p.kind === "change" && p.tour === selTour) || (p.kind === "pre" && selTour === 1) ? `<span class="pill next">Prochain tour</span>` : `<span class="pill done">À venir</span>`;
   const ids = matchesOfTour(selTour), playing = new Set(ids.flatMap(playersOf));
-  const rest = P.map((n, id) => id).filter(id => !playing.has(id)).sort((a, b) => P[a].localeCompare(P[b], "fr"));
+  const rest = P.map((n, id) => id).filter(id => !playing.has(id)).sort((a, b) => nameAt(a, selTour).localeCompare(nameAt(b, selTour), "fr"));
+  const active = Object.keys(reps).map(Number).sort((a, b) => P[a].localeCompare(P[b], "fr"));
   $("#view-matchs").innerHTML = `
     ${finderHtml()}
     <div class="tours"><div class="tour-strip" id="strip">${chips}</div></div>
     <div class="tour-head"><h2>Tour ${selTour}</h2><span class="when">${tourLabel(selTour)}</span>${pill}</div>
     <div class="matches">${ids.map(i => matchCard(i)).join("")}</div>
     <details class="rest"${restOpen ? " open" : ""}><summary>Au repos pendant ce tour (${rest.length})</summary>
-      <div class="restlist">${rest.map(id => `<span class="${id === me ? "me" : ""}">${esc(P[id])}</span>`).join("")}</div></details>`;
+      <div class="restlist">${rest.map(id => `<span class="${id === me ? "me" : ""}">${esc(nameAt(id, selTour))}</span>`).join("")}</div></details>
+    <section class="subs" aria-labelledby="subs-t">
+      <div class="subs-head"><div><h3 id="subs-t">Un joueur absent ?</h3><p>Remplacez-le à partir d'un tour, ses matchs passent au remplaçant.</p></div>
+      <button class="btn ball" type="button" data-sub>Remplacer</button></div>
+      ${active.length ? `<ul class="sublist">${active.map(p => `<li><span><b>${esc(reps[p].name)}</b> remplace ${esc(P[p])} dès le tour ${reps[p].from}</span>
+        <button class="linkbtn" type="button" data-unsub="${p}">Annuler</button></li>`).join("")}</ul>` : ""}
+    </section>`;
   $("#view-matchs details.rest").addEventListener("toggle", e => { restOpen = e.target.open; });
   bindFinder();
   const sel = $("#strip .sel");
@@ -464,7 +506,7 @@ function finderHtml() {
   let mine = "";
   if (me !== null) {
     const my = M.map((m, i) => i).filter(i => playersOf(i).includes(me));
-    mine = `<div class="mine"><div class="mine-head"><span>Matchs de <b>${esc(P[me])}</b></span>
+    mine = `<div class="mine"><div class="mine-head"><span>Matchs de <b>${esc(meName())}</b></span>
       <button class="linkbtn" type="button" data-unme>Effacer</button></div>
       <div class="mine-chips">${my.map(i => {
         const m = M[i], st = tourState(m[0]), s = scores[i];
@@ -481,7 +523,8 @@ function renderFindResults() {
   const box = $("#find-results"); if (!box) return;
   const q = fold(findQ.trim());
   if (!q) { box.hidden = true; box.innerHTML = ""; return; }
-  const hits = P.map((n, id) => ({ n, id })).filter(x => fold(x.n).includes(q)).sort((a, b) => a.n.localeCompare(b.n, "fr"));
+  const pool = P.map((n, id) => ({ n, id })).concat(Object.keys(reps).map(k => ({ n: reps[k].name, id: Number(k) })));
+  const hits = pool.filter(x => fold(x.n).includes(q)).sort((a, b) => a.n.localeCompare(b.n, "fr"));
   box.innerHTML = hits.length ? hits.map(x => `<button type="button" role="option" data-pick="${x.id}">${esc(x.n)}</button>`).join("")
     : `<p class="nores">Aucun joueur ne correspond à « ${esc(findQ.trim())} »</p>`;
   box.hidden = false;
@@ -511,14 +554,14 @@ function renderMoi() {
       <div class="namegrid" id="names"></div></div>`;
     const list = () => {
       const q = ($("#who").value || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
-      $("#names").innerHTML = P.map((n, id) => ({ n, id })).sort((a, b) => a.n.localeCompare(b.n, "fr"))
+      $("#names").innerHTML = P.map((n, id) => ({ n, id })).concat(Object.keys(reps).map(k => ({ n: reps[k].name, id: Number(k) }))).sort((a, b) => a.n.localeCompare(b.n, "fr"))
         .filter(x => x.n.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().includes(q))
         .map(x => `<button type="button" data-me="${x.id}">${esc(x.n)}</button>`).join("");
     };
     list(); $("#who").addEventListener("input", list);
     return;
   }
-  const { st, ranked } = computeStats(), mine = st[me], r = ranked.find(x => x.id === me);
+  const { byName, ranked } = computeStats(), myN = meName(), mine = byName.get(myN), r = ranked.find(x => x.name === myN);
   const my = M.map((m, i) => i).filter(i => playersOf(i).includes(me));
   const now = Date.now();
   const next = my.find(i => tourState(M[i][0], now) !== "done");
@@ -532,7 +575,7 @@ function renderMoi() {
     nextHtml = `<div class="nextcard"><svg class="courtlines" viewBox="0 0 200 100" aria-hidden="true" style="color:#fff"><use href="#court"/></svg>
       <div class="lbl">${live ? "● Match en cours" : "Prochain match"}</div>
       <div class="big">Terrain ${m[1]} · ${hm(startMin(m[0]))}</div>
-      <dl class="row"><dt>Tour</dt><dd>${m[0]} sur 16 · ${when}</dd><dt>Partenaire</dt><dd>${esc(P[partner])}</dd><dt>Adversaires</dt><dd>${esc(P[opp[0]])} et ${esc(P[opp[1]])}</dd></dl></div>`;
+      <dl class="row"><dt>Tour</dt><dd>${m[0]} sur 16 · ${when}</dd><dt>Partenaire</dt><dd>${esc(nameAt(partner, m[0]))}</dd><dt>Adversaires</dt><dd>${esc(nameAt(opp[0], m[0]))} et ${esc(nameAt(opp[1], m[0]))}</dd></dl></div>`;
   } else {
     nextHtml = `<div class="nextcard"><div class="lbl">Vos matchs</div><div class="big">Tous joués, bravo !</div></div>`;
   }
@@ -549,9 +592,9 @@ function renderMoi() {
     } else if (ts === "next") res = `<div class="res"><span class="badge d">À VENIR</span></div>`;
     else res = `<button class="go" type="button" data-enter="${i}">${ts === "live" ? "En jeu" : "Saisir"}</button>`;
     return `<div class="tl"><div class="tt"><div class="n">T${m[0]}</div><div class="h">${hm(startMin(m[0]))}</div></div>
-      <div class="who"><div>Terrain ${m[1]} · avec <b>${esc(P[partner])}</b></div><div class="vs">contre ${esc(P[opp[0]])} et ${esc(P[opp[1]])}</div></div>${res}</div>`;
+      <div class="who"><div>Terrain ${m[1]} · avec <b>${esc(nameAt(partner, m[0]))}</b>${isRep(me, m[0]) ? ` <span class="badge n">${esc(nameAt(me, m[0]))} joue</span>` : ""}</div><div class="vs">contre ${esc(nameAt(opp[0], m[0]))} et ${esc(nameAt(opp[1], m[0]))}</div></div>${res}</div>`;
   }).join("");
-  v.innerHTML = `<div class="hello"><h2>${esc(P[me].split(" ")[0])}</h2><button class="linkbtn" type="button" data-unme>Changer de joueur</button></div>
+  v.innerHTML = `<div class="hello"><h2>${esc(myN.split(" ")[0])}</h2><button class="linkbtn" type="button" data-unme>Changer de joueur</button></div>
     <div class="stats">
       <div class="stat"><div class="v">${r ? r.rank : "–"}</div><div class="k">Rang</div></div>
       <div class="stat"><div class="v">${r ? fmtMoy(r.moy) : "–"}</div><div class="k">Moyenne</div></div>
@@ -578,9 +621,10 @@ function renderClassement() {
     const x = pod[k];
     return `<div class="pod p${k + 1}"><div class="rk">${x.rank}</div><div class="nm">${esc(x.name)}</div><div class="mv">${fmtMoy(x.moy)} pts/match</div></div>`;
   }).join("")}</div>` : "";
-  const row = x => `<div class="rrow${x.id === me ? " me" : ""}"><span class="rk">${x.rank}</span><span class="nm">${esc(x.name)}</span>
+  const myN = meName();
+  const row = x => `<div class="rrow${x.name === myN ? " me" : ""}"><span class="rk">${x.rank}</span><span class="nm">${esc(x.name)}</span>
     <span class="c">${x.j}</span><span class="c">${x.v}</span><span class="c">${x.diff > 0 ? "+" : ""}${x.diff}</span><span class="moy">${fmtMoy(x.moy)}</span></div>`;
-  const wrow = x => `<div class="rrow wait${x.id === me ? " me" : ""}"><span class="rk">–</span><span class="nm">${esc(x.name)}</span><span class="c">0</span><span class="c">–</span><span class="c">–</span><span class="moy">–</span></div>`;
+  const wrow = x => `<div class="rrow wait${x.name === myN ? " me" : ""}"><span class="rk">–</span><span class="nm">${esc(x.name)}</span><span class="c">0</span><span class="c">–</span><span class="c">–</span><span class="moy">–</span></div>`;
   v.innerHTML = `<div class="section-title"><h2>Classement</h2><span class="aside">${n} match${n > 1 ? "s" : ""} sur 48</span></div>
     ${podHtml}
     <div class="ranking"><div class="rrow head"><span>#</span><span>Joueur</span><span class="c">J</span><span class="c">V</span><span class="c">+/-</span><span style="text-align:right">Moy.</span></div>
@@ -594,9 +638,9 @@ function openSheet(i) {
   sheetMatch = i;
   const m = M[i], s = scores[i];
   const hist = rows.filter(r => r.match === i).reverse();
-  const team = (a, b, id, v) => `<div class="sline"><div class="names">${nameSpan(a)}${nameSpan(b)}</div>
+  const team = (a, b, id, v) => `<div class="sline"><div class="names">${nameSpan(a, m[0])}${nameSpan(b, m[0])}</div>
     <div class="stepper"><button type="button" data-step="${id}" data-d="-1" aria-label="Moins un point">−</button>
-    <input id="${id}" type="number" inputmode="numeric" min="0" max="99" value="${v}" aria-label="Points de ${esc(P[a])} et ${esc(P[b])}">
+    <input id="${id}" type="number" inputmode="numeric" min="0" max="99" value="${v}" aria-label="Points de ${esc(nameAt(a, m[0]))} et ${esc(nameAt(b, m[0]))}">
     <button type="button" data-step="${id}" data-d="1" aria-label="Plus un point">+</button></div></div>`;
   $("#sheet-root").innerHTML = `<div class="backdrop" id="bd"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sh-t">
     <div class="grab"></div>
@@ -605,7 +649,7 @@ function openSheet(i) {
     ${s ? `<p class="prev">Score actuel ${s.a}-${s.b}${s.by ? ", saisi par " + esc(s.by) : ""} à ${clockMu(s.at)}</p>` : ""}
     ${team(m[2], m[3], "sa", s ? s.a : 0)}
     ${team(m[4], m[5], "sb", s ? s.b : 0)}
-    <div class="byline"><label for="by">Saisi par (facultatif)</label><input id="by" type="text" maxlength="60" autocomplete="name" value="${me !== null ? esc(P[me]) : ""}" placeholder="Votre prénom"></div>
+    <div class="byline"><label for="by">Saisi par (facultatif)</label><input id="by" type="text" maxlength="60" autocomplete="name" value="${me !== null ? esc(meName()) : ""}" placeholder="Votre prénom"></div>
     <p class="err" id="err"></p>
     <div class="actions"><button class="btn primary block" id="save" type="button">Enregistrer le score</button>
     ${s ? `<button class="btn ghost block" id="clear" type="button">Effacer ce score</button>` : ""}
@@ -640,15 +684,76 @@ async function saveSheet(clear) {
   }
 }
 
+/* ---------- Remplacement d'un joueur ---------- */
+function openSub(pre) {
+  sheetMatch = -1;
+  const opts = P.map((n, id) => ({ n, id })).sort((a, b) => a.n.localeCompare(b.n, "fr"))
+    .map(x => `<option value="${x.id}"${x.id === pre ? " selected" : ""}>${esc(x.n)}${reps[x.id] ? ` (remplacé par ${esc(reps[x.id].name)})` : ""}</option>`).join("");
+  const t0 = Math.min(NT, phase().kind === "done" ? NT : phase().tour);
+  const tours = Array.from({ length: NT }, (_, k) => k + 1).map(t => `<option value="${t}"${t === t0 ? " selected" : ""}>Tour ${t} · ${hm(startMin(t))}</option>`).join("");
+  $("#sheet-root").innerHTML = `<div class="backdrop" id="bd"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sub-t">
+    <div class="grab"></div>
+    <h3 id="sub-t">Remplacer un joueur</h3>
+    <p class="sub">Le remplaçant reprend les matchs du joueur absent à partir du tour choisi. Les points déjà marqués restent à l'absent.</p>
+    <div class="form">
+      <label for="sub-p">Joueur absent</label><select id="sub-p"><option value="">Choisir…</option>${opts}</select>
+      <label for="sub-n">Remplaçant (prénom et nom)</label><input id="sub-n" type="text" maxlength="60" autocomplete="off" placeholder="Ex. Marie Dupont">
+      <label for="sub-t0">À partir du</label><select id="sub-t0">${tours}</select>
+      <label for="sub-by">Saisi par (facultatif)</label><input id="sub-by" type="text" maxlength="60" value="${me !== null ? esc(meName()) : ""}" placeholder="Votre prénom">
+    </div>
+    <p class="err" id="err"></p>
+    <div class="actions"><button class="btn primary block" id="sub-save" type="button">Valider le remplacement</button>
+    <button class="btn ghost block" id="cancel" type="button">Annuler</button></div>
+  </div></div>`;
+  document.body.style.overflow = "hidden";
+}
+async function postRemp(body) {
+  const res = await fetch(REMP, { method: "POST", headers: { apikey: KEY, Authorization: `Bearer ${KEY}`, "Content-Type": "application/json", Prefer: "return=minimal" }, body: JSON.stringify(body) });
+  if (!res.ok) throw new Error(String(res.status));
+}
+async function saveSub() {
+  const err = $("#err"), p = $("#sub-p").value, t0 = Number($("#sub-t0").value);
+  const name = properName($("#sub-n").value || ""), by = ($("#sub-by").value || "").trim().slice(0, 60);
+  if (p === "") { err.textContent = "Choisissez le joueur absent."; return; }
+  if (name.length < 2) { err.textContent = "Indiquez le prénom et le nom du remplaçant."; return; }
+  const pid = Number(p);
+  if (name === P[pid]) { err.textContent = "Le remplaçant doit être une autre personne."; return; }
+  // Un même nom ne peut pas jouer deux matchs du même tour
+  for (const i of M.map((m, k) => k).filter(k => playersOf(k).includes(pid) && M[k][0] >= t0)) {
+    const t = M[i][0];
+    const clash = M.map((m, k) => k).filter(k => M[k][0] === t).some(k => playersOf(k).some(q => q !== pid && nameAt(q, t) === name));
+    if (clash) { err.textContent = `${name} joue déjà au tour ${t}. Choisissez un autre tour de départ ou un autre remplaçant.`; return; }
+  }
+  const btn = $("#sub-save"); btn.disabled = true; btn.textContent = "Envoi…";
+  try {
+    await postRemp({ joueur: pid, remplacant: name, a_partir_du_tour: t0, saisi_par: by || null });
+    repRows.push({ joueur: pid, remplacant: name, a_partir_du_tour: t0, saisi_par: by, created_at: new Date().toISOString() }); rebuild();
+    closeSheet(); render(); toast(`${name} remplace ${P[pid]} dès le tour ${t0}`); refresh();
+  } catch {
+    err.textContent = "Envoi impossible. Vérifiez votre connexion puis réessayez.";
+    btn.disabled = false; btn.textContent = "Valider le remplacement";
+  }
+}
+async function cancelSub(pid) {
+  try {
+    await postRemp({ joueur: pid, remplacant: null, a_partir_du_tour: 1, saisi_par: me !== null ? meName() : null });
+    repRows.push({ joueur: pid, remplacant: null, a_partir_du_tour: 1, created_at: new Date().toISOString() }); rebuild();
+    render(); toast(`${P[pid]} est de retour dans le planning`); refresh();
+  } catch { toast("Annulation impossible. Vérifiez votre connexion."); }
+}
+
 /* ---------- Synchronisation ---------- */
 async function refresh() {
   try {
-    const res = await fetch(`${API}?select=match,score_a,score_b,saisi_par,created_at&order=id.asc`, { headers: { apikey: KEY, Authorization: `Bearer ${KEY}` }, cache: "no-store" });
-    if (!res.ok) throw new Error(String(res.status));
-    const fresh = await res.json(), sig = r => r.length + "|" + (r.length ? r[r.length - 1].created_at : "");
-    const changed = sig(fresh) !== sig(rows);
-    rows = fresh; lastSync = Date.now(); online = true;
-    store.set("fp_rows", rows); store.set("fp_sync", lastSync);
+    const h = { headers: { apikey: KEY, Authorization: `Bearer ${KEY}` }, cache: "no-store" };
+    const [res, res2] = await Promise.all([
+      fetch(`${API}?select=match,score_a,score_b,saisi_par,created_at&order=id.asc`, h),
+      fetch(`${REMP}?select=joueur,remplacant,a_partir_du_tour,saisi_par,created_at&order=id.asc`, h)]);
+    if (!res.ok || !res2.ok) throw new Error("sync");
+    const fresh = await res.json(), fresh2 = await res2.json(), sig = r => r.length + "|" + (r.length ? r[r.length - 1].created_at : "");
+    const changed = sig(fresh) !== sig(rows) || sig(fresh2) !== sig(repRows);
+    rows = fresh; repRows = fresh2; lastSync = Date.now(); online = true;
+    store.set("fp_rows", rows); store.set("fp_reps", repRows); store.set("fp_sync", lastSync);
     rebuild(); if (changed && sheetMatch === null) render(); else renderSync();
   } catch { online = false; renderSync(); }
 }
@@ -672,7 +777,7 @@ let toastTimer;
 function toast(msg) { const r = $("#toast-root"); r.innerHTML = `<div class="toast" role="status">${esc(msg)}</div>`; clearTimeout(toastTimer); toastTimer = setTimeout(() => r.innerHTML = "", 2600); }
 
 document.addEventListener("click", e => {
-  const t = e.target.closest("[data-tab],[data-tour],[data-enter],[data-me],[data-pick],[data-unme],[data-step],#save,#clear,#cancel,#bd,#share");
+  const t = e.target.closest("[data-tab],[data-tour],[data-enter],[data-me],[data-pick],[data-unme],[data-step],[data-sub],[data-unsub],#sub-save,#save,#clear,#cancel,#bd,#share");
   if (!e.target.closest(".finder") && $("#find-results") && !$("#find-results").hidden) { $("#find-results").hidden = true; }
   if (!t) return;
   if (t.dataset.pick !== undefined) { pick(Number(t.dataset.pick)); return; }
@@ -687,6 +792,9 @@ document.addEventListener("click", e => {
   else if (t.id === "clear") saveSheet(true);
   else if (t.id === "cancel") closeSheet();
   else if (t.id === "share") share();
+  else if (t.hasAttribute("data-sub")) openSub(null);
+  else if (t.dataset.unsub !== undefined) cancelSub(Number(t.dataset.unsub));
+  else if (t.id === "sub-save") saveSub();
 });
 window.addEventListener("hashchange", () => { const t = location.hash.slice(1); if (["matchs", "moi", "classement"].includes(t) && t !== tab) go(t); });
 document.addEventListener("keydown", e => { if (e.key === "Escape" && sheetMatch !== null) closeSheet(); });
