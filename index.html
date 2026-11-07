@@ -270,8 +270,8 @@ details.rest[open] summary::after{content:"Masquer"}
 
 /* ---------- Barre d'onglets ---------- */
 .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(12px);border-top:1px solid var(--hair);padding-bottom:env(safe-area-inset-bottom,0px)}
-.tabbar .wrap{display:grid;grid-template-columns:repeat(4,1fr);height:var(--tabbar)}
-.tab{border:0;background:none;display:grid;justify-items:center;align-content:center;gap:3px;font-size:11.5px;font-weight:700;color:var(--muted);letter-spacing:.02em}
+.tabbar .wrap{display:grid;grid-template-columns:repeat(5,1fr);height:var(--tabbar)}
+.tab{border:0;background:none;display:grid;justify-items:center;align-content:center;gap:3px;font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.01em;white-space:nowrap}
 .tab svg{width:24px;height:24px}
 .tab[aria-current="page"]{color:var(--court)}
 @media (prefers-color-scheme: dark){ .tab[aria-current="page"]{color:#9cc2ff} }
@@ -308,6 +308,42 @@ details.rest[open] summary::after{content:"Masquer"}
 footer.foot{font-size:12px;color:var(--muted);text-align:center;margin:10px 0 0}
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
 @media (min-width:640px){ .stats{gap:12px} .matches{gap:14px} }
+/* ---------- Photos ---------- */
+.ph-hero{border-radius:18px;color:#fff;padding:16px;margin:4px 0 12px;background:linear-gradient(160deg,var(--court),var(--court-deep));display:grid;gap:12px}
+.ph-hero .lbl{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--ball)}
+.ph-hero h2{margin:4px 0 4px;font-family:var(--f-display);font-weight:900;font-style:italic;font-stretch:80%;font-size:28px;line-height:1.05}
+.ph-hero p{margin:0;font-size:14px;opacity:.9}
+.ph-add{position:relative;width:100%;min-height:50px;font-size:16px;cursor:pointer}
+.ph-add svg{width:20px;height:20px}
+.vh{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;clip:rect(0 0 0 0);pointer-events:none}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;background:var(--surface-2);border:1px solid var(--hair);border-radius:12px;margin:0 0 12px}
+.seg button{border:0;background:none;border-radius:9px;min-height:40px;font-weight:700;font-size:14px;color:var(--muted)}
+.seg button b{font-variant-numeric:tabular-nums;margin-left:4px;font-weight:800}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;border-radius:14px;overflow:hidden}
+@media (min-width:560px){ .pgrid{grid-template-columns:repeat(4,1fr)} }
+.pcell{border:0;padding:0;margin:0;aspect-ratio:1/1;background:var(--surface-2);overflow:hidden;display:block;position:relative}
+.pcell img{width:100%;height:100%;object-fit:cover;display:block}
+.pcell .mk{position:absolute;top:6px;right:6px;width:11px;height:11px;border-radius:50%;background:var(--ball);box-shadow:0 0 0 2px rgba(0,0,0,.35)}
+.ph-note{font-size:12.5px;color:var(--muted);margin:10px 2px 0}
+.ppreview{display:flex;gap:6px;overflow-x:auto;padding:2px 0 10px}
+.ppreview img{width:64px;height:64px;object-fit:cover;border-radius:10px;flex:none;background:var(--surface-2)}
+.pprog{display:grid;gap:6px;margin:4px 0 10px}
+.pprog[hidden]{display:none}
+.pprog .bar{height:8px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.pprog .bar i{display:block;height:100%;width:0;background:var(--court);transition:width .2s}
+.pprog span{font-size:13px;color:var(--muted)}
+.lb{position:fixed;inset:0;z-index:50;background:#000;color:#fff;display:grid;grid-template-rows:auto 1fr auto}
+.lb-top{display:flex;justify-content:space-between;align-items:center;padding:calc(8px + env(safe-area-inset-top,0px)) 12px 8px;font-size:14px;font-weight:600}
+.lb-top button{width:44px;height:44px;border:0;border-radius:50%;background:rgba(255,255,255,.14);color:#fff;font-size:26px;line-height:1}
+.lb-stage{position:relative;min-height:0;overflow:hidden}
+.lb-stage img{position:absolute;inset:0;margin:auto;max-width:100%;max-height:100%}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:64px;border:0;background:rgba(0,0,0,.4);color:#fff;font-size:30px;line-height:1;border-radius:12px}
+.lb-nav.prev{left:6px} .lb-nav.next{right:6px}
+.lb-info{padding:12px 16px calc(14px + env(safe-area-inset-bottom,0px));display:grid;gap:10px;font-size:14px}
+.lb-info .cap{opacity:.9}
+.lb-actions{display:flex;gap:8px}
+.lb-actions .btn{background:rgba(255,255,255,.14);color:#fff;border:0;flex:1;text-decoration:none;padding:11px 8px}
 </style>
 </head>
 <body>
@@ -341,6 +377,7 @@ footer.foot{font-size:12px;color:var(--muted);text-align:center;margin:10px 0 0}
   <section class="view" id="view-matchs" aria-label="Matchs"></section>
   <section class="view" id="view-moi" aria-label="Mes matchs" hidden></section>
   <section class="view" id="view-classement" aria-label="Classement" hidden></section>
+  <section class="view" id="view-photos" aria-label="Photos" hidden></section>
   <section class="view" id="view-vote" aria-label="Vote" hidden></section>
   <p class="sync" id="sync"></p>
   <footer class="foot">Scores saisis par les joueurs. Une erreur ? Corrigez simplement le score du match.</footer>
@@ -359,6 +396,10 @@ footer.foot{font-size:12px;color:var(--muted);text-align:center;margin:10px 0 0}
     <button class="tab" data-tab="classement" type="button">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M17 6h3a3 3 0 0 1-3 4M7 6H4a3 3 0 0 0 3 4"/></svg>
       Classement
+    </button>
+    <button class="tab" data-tab="photos" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13.5" r="3.5"/></svg>
+      Photos
     </button>
     <button class="tab" data-tab="vote" type="button">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="m9 14-2 7 5-3 5 3-2-7"/></svg>
@@ -699,7 +740,11 @@ function openSheet(i) {
   </div></div>`;
   document.body.style.overflow = "hidden";
 }
-function closeSheet() { $("#sheet-root").innerHTML = ""; document.body.style.overflow = ""; sheetMatch = null; }
+function closeSheet() {
+  if (uploading) return;
+  pendingUrls.forEach(u => URL.revokeObjectURL(u)); pendingUrls = [];
+  $("#sheet-root").innerHTML = ""; document.body.style.overflow = ""; sheetMatch = null;
+}
 async function send(i, a, b, by) {
   const res = await fetch(API, { method: "POST", headers: { apikey: KEY, Authorization: `Bearer ${KEY}`, "Content-Type": "application/json", Prefer: "return=minimal" },
     body: JSON.stringify({ match: i, score_a: a, score_b: b, saisi_par: by || null }) });
@@ -799,7 +844,7 @@ const CATS = [
 ];
 let ballot = { voter: "", c: ["", "", "", "", "", ""], rem: "" };
 let ballotTouched = false;
-let voted = store.get("fp_voted", null);
+let voted = store.get("fp_voted2", null);
 let orgCode = store.get("fp_code", "");
 let results = null, nbBallots = null;
 const rpcHeaders = { apikey: KEY, Authorization: `Bearer ${KEY}`, "Content-Type": "application/json" };
@@ -860,7 +905,7 @@ async function sendBallot() {
     const res = await fetch(VOTES, { method: "POST", headers: { ...rpcHeaders, Prefer: "return=minimal" }, body: JSON.stringify(body) });
     if (res.status === 409) { err.textContent = `Un bulletin a déjà été enregistré au nom de ${ballot.voter}.`; btn.disabled = false; btn.textContent = "Envoyer mon bulletin"; return; }
     if (!res.ok) throw new Error(String(res.status));
-    voted = ballot.voter; store.set("fp_voted", voted);
+    voted = ballot.voter; store.set("fp_voted2", voted);
     renderVote(); window.scrollTo({ top: 0 }); toast("Bulletin enregistré, merci !"); loadResults();
   } catch {
     err.textContent = "Envoi impossible. Vérifie ta connexion puis réessaie.";
@@ -899,6 +944,206 @@ async function tryCode() {
   else { orgCode = ""; const e = $("#v-code-err"); if (e) e.textContent = "Code incorrect."; }
 }
 
+/* ---------- Photos du tournoi ---------- */
+const SB = "https://wglueoafueykmbukrzxt.supabase.co";
+const PHOTOS = SB + "/rest/v1/fun_padel_photos";
+const UPLOAD = SB + "/storage/v1/object/fun-padel-photos/";
+const PUB = SB + "/storage/v1/object/public/fun-padel-photos/";
+const MAX_BATCH = 20;
+const uuid = () => {
+  if (crypto.randomUUID) return crypto.randomUUID();
+  const b = crypto.getRandomValues(new Uint8Array(16)); b[6] = (b[6] & 15) | 64; b[8] = (b[8] & 63) | 128;
+  const x = [...b].map(v => v.toString(16).padStart(2, "0")).join("");
+  return `${x.slice(0, 8)}-${x.slice(8, 12)}-${x.slice(12, 16)}-${x.slice(16, 20)}-${x.slice(20)}`;
+};
+// Clé propre à ce téléphone : permet de retirer ses propres photos, jamais lisible par les autres
+let devKey = store.get("fp_dev", "");
+if (!devKey) { devKey = uuid(); store.set("fp_dev", devKey); }
+let photos = store.get("fp_photos", []);       // plus récentes d'abord
+let myPhotos = store.get("fp_myphotos", []);   // id envoyés depuis ce téléphone
+let photoFilter = "all";
+let pending = [], pendingUrls = [], uploading = false;
+let lbList = [], lbPos = 0;
+const isMine = p => myPhotos.includes(p.id) || (me !== null && !!p.auteur && p.auteur === meName());
+const photoList = () => photoFilter === "mine" ? photos.filter(isMine) : photos;
+
+async function loadPhotos() {
+  try {
+    const res = await fetch(`${PHOTOS}?select=id,created_at,auteur,legende,photo,vignette,largeur,hauteur&order=id.desc&limit=2000`,
+      { headers: { apikey: KEY, Authorization: `Bearer ${KEY}` }, cache: "no-store" });
+    if (!res.ok) throw new Error(String(res.status));
+    const fresh = await res.json(), sig = r => r.map(p => p.id).join(",");
+    const changed = sig(fresh) !== sig(photos);
+    photos = fresh; store.set("fp_photos", photos);
+    if (changed && tab === "photos" && sheetMatch === null) renderPhotos();
+  } catch { /* garde l'album déjà chargé */ }
+}
+function renderPhotos() {
+  const v = $("#view-photos"), all = photos.length, mine = photos.filter(isMine).length, list = photoList();
+  const grid = list.length ? `<div class="pgrid">${list.map(p => `<button class="pcell" type="button" data-ph="${p.id}" aria-label="Photo${p.auteur ? " de " + esc(p.auteur) : ""}, ${clockMu(Date.parse(p.created_at))}">
+      <img src="${PUB + p.vignette}" alt="" loading="lazy" decoding="async">${myPhotos.includes(p.id) ? `<span class="mk" aria-hidden="true"></span>` : ""}</button>`).join("")}</div>`
+    : `<div class="empty"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--court)"><path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13.5" r="3.5"/></svg>
+      <h3>${photoFilter === "mine" ? "Pas encore de photo de vous" : "L'album est vide pour l'instant"}</h3>
+      <p>Touchez « Ajouter des photos » pour partager vos plus beaux moments, depuis votre galerie ou l'appareil photo.</p></div>`;
+  v.innerHTML = `<div class="ph-hero"><div><div class="lbl">Album du tournoi</div><h2>Photos</h2>
+      <p>Tout le monde peut voir et télécharger les photos de l'album.</p></div>
+      <label class="btn ball ph-add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Ajouter des photos
+        <input class="vh" id="ph-file" type="file" accept="image/*" multiple></label></div>
+    <div class="seg" role="group" aria-label="Filtrer les photos">
+      <button type="button" data-pf="all" aria-pressed="${photoFilter === "all"}">Toutes<b>${all}</b></button>
+      <button type="button" data-pf="mine" aria-pressed="${photoFilter === "mine"}">Mes photos<b>${mine}</b></button></div>
+    ${grid}
+    ${photoFilter === "mine" && mine ? `<p class="ph-note">Photos envoyées depuis ce téléphone${me !== null ? " ou au nom de " + esc(meName()) : ""}. Le point jaune indique celles que vous pouvez retirer.</p>` : ""}`;
+  $("#ph-file").addEventListener("change", e => { const f = [...e.target.files]; e.target.value = ""; if (f.length) openUpload(f); });
+}
+
+/* Envoi : chaque photo est réduite sur le téléphone (1920 px, plus une vignette) avant l'envoi */
+function openUpload(files) {
+  const imgs = files.filter(f => /^image\//.test(f.type) || /\.(jpe?g|png|webp|heic|heif)$/i.test(f.name));
+  if (!imgs.length) { toast("Choisissez des photos (pas de vidéos)"); return; }
+  if (imgs.length > MAX_BATCH) toast(`${MAX_BATCH} photos maximum par envoi, les ${MAX_BATCH} premières sont gardées`);
+  pending = imgs.slice(0, MAX_BATCH);
+  renderUpload("");
+  document.body.style.overflow = "hidden";
+}
+function renderUpload(errMsg) {
+  sheetMatch = -2;
+  pendingUrls.forEach(u => URL.revokeObjectURL(u));
+  pendingUrls = pending.map(f => URL.createObjectURL(f));
+  const n = pending.length, by = $("#ph-by") ? $("#ph-by").value : (me !== null ? meName() : ""), leg = $("#ph-leg") ? $("#ph-leg").value : "";
+  $("#sheet-root").innerHTML = `<div class="backdrop" id="bd"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="ph-t">
+    <div class="grab"></div>
+    <h3 id="ph-t">${errMsg ? "Réessayer l'envoi" : `Envoyer ${n} photo${n > 1 ? "s" : ""}`}</h3>
+    <div class="ppreview">${pendingUrls.map(u => `<img src="${u}" alt="">`).join("")}</div>
+    <div class="form">
+      <label for="ph-by">Envoyé par (facultatif)</label><input id="ph-by" type="text" maxlength="60" autocomplete="name" value="${esc(by)}" placeholder="Votre prénom et nom">
+      <label for="ph-leg">Légende (facultatif)</label><input id="ph-leg" type="text" maxlength="140" value="${esc(leg)}" placeholder="Ex. Terrain 2, tour 5">
+    </div>
+    <div class="pprog" id="ph-prog" hidden><div class="bar"><i></i></div><span></span></div>
+    <p class="err" id="err">${esc(errMsg)}</p>
+    <div class="actions"><button class="btn primary block" id="ph-send" type="button">${errMsg ? "Réessayer" : `Envoyer ${n > 1 ? "les " + n + " photos" : "la photo"}`}</button>
+    <button class="btn ghost block" id="cancel" type="button">Annuler</button></div>
+  </div></div>`;
+}
+function loadImg(file) {
+  return new Promise((ok, ko) => {
+    const url = URL.createObjectURL(file), img = new Image();
+    img.onload = () => { URL.revokeObjectURL(url); ok(img); };
+    img.onerror = () => { URL.revokeObjectURL(url); ko(new Error("format")); };
+    img.src = url;
+  });
+}
+function toJpeg(img, max, q) {
+  const w0 = img.naturalWidth, h0 = img.naturalHeight, k = Math.min(1, max / Math.max(w0, h0));
+  const w = Math.max(1, Math.round(w0 * k)), h = Math.max(1, Math.round(h0 * k));
+  const c = document.createElement("canvas"); c.width = w; c.height = h;
+  const ctx = c.getContext("2d"); ctx.imageSmoothingQuality = "high"; ctx.drawImage(img, 0, 0, w, h);
+  return new Promise((ok, ko) => c.toBlob(b => b ? ok({ blob: b, w, h }) : ko(new Error("format")), "image/jpeg", q));
+}
+function putFile(path, blob, onProgress) {
+  return new Promise((ok, ko) => {
+    const x = new XMLHttpRequest();
+    x.open("POST", UPLOAD + path);
+    x.setRequestHeader("apikey", KEY); x.setRequestHeader("Authorization", `Bearer ${KEY}`);
+    x.setRequestHeader("Content-Type", "image/jpeg"); x.setRequestHeader("cache-control", "max-age=86400");
+    x.timeout = 180000;
+    if (onProgress) x.upload.onprogress = e => { if (e.lengthComputable) onProgress(e.loaded / e.total); };
+    x.onload = () => x.status >= 200 && x.status < 300 ? ok() : ko(new Error("http " + x.status));
+    x.onerror = x.ontimeout = () => ko(new Error("réseau"));
+    x.send(blob);
+  });
+}
+async function uploadAll() {
+  if (uploading) return;
+  const by = ($("#ph-by").value || "").trim().replace(/\s+/g, " ").slice(0, 60), leg = ($("#ph-leg").value || "").trim().slice(0, 140);
+  const n = pending.length, prog = $("#ph-prog"), bar = $("#ph-prog i"), lab = $("#ph-prog span"), btn = $("#ph-send");
+  uploading = true; btn.disabled = true; btn.textContent = "Envoi en cours…"; $("#cancel").disabled = true; $("#err").textContent = "";
+  prog.hidden = false;
+  const failed = []; let ok = 0, badFormat = 0;
+  for (let k = 0; k < n; k++) {
+    const step = f => { bar.style.width = `${Math.round(100 * (k + f) / n)}%`; };
+    lab.textContent = `Photo ${k + 1} sur ${n}`; step(0);
+    try {
+      const img = await loadImg(pending[k]);
+      const full = await toJpeg(img, 1920, 0.82), thumb = await toJpeg(img, 480, 0.74);
+      const u = uuid();
+      await putFile(`t/${u}.jpg`, thumb.blob); step(0.1);
+      await putFile(`p/${u}.jpg`, full.blob, f => step(0.1 + 0.85 * f));
+      const res = await fetch(`${PHOTOS}?select=id,created_at,auteur,legende,photo,vignette,largeur,hauteur`, { method: "POST",
+        headers: { apikey: KEY, Authorization: `Bearer ${KEY}`, "Content-Type": "application/json", Prefer: "return=representation" },
+        body: JSON.stringify({ auteur: by || null, legende: leg || null, photo: `p/${u}.jpg`, vignette: `t/${u}.jpg`, largeur: full.w, hauteur: full.h, cle: devKey }) });
+      if (!res.ok) throw new Error("http " + res.status);
+      const [row] = await res.json();
+      myPhotos.push(row.id); store.set("fp_myphotos", myPhotos);
+      photos = [row, ...photos.filter(p => p.id !== row.id)]; store.set("fp_photos", photos);
+      ok++; step(1);
+    } catch (e) { failed.push(pending[k]); if (e.message === "format") badFormat++; }
+  }
+  uploading = false;
+  if (!failed.length) {
+    closeSheet(); render(); toast(ok > 1 ? `${ok} photos ajoutées à l'album, merci !` : "Photo ajoutée à l'album, merci !"); loadPhotos();
+    return;
+  }
+  pending = failed;
+  renderUpload(`${ok ? ok + " envoyée" + (ok > 1 ? "s" : "") + ". " : ""}${failed.length} photo${failed.length > 1 ? "s" : ""} non envoyée${failed.length > 1 ? "s" : ""}. ` +
+    (badFormat ? "Format illisible par ce téléphone : choisissez une photo JPEG." : "Vérifiez votre connexion puis réessayez."));
+  if (ok) renderPhotos();
+}
+
+/* Visionneuse plein écran */
+function openLightbox(id) {
+  lbList = photoList().map(p => p.id); lbPos = Math.max(0, lbList.indexOf(id));
+  sheetMatch = -3; document.body.style.overflow = "hidden";
+  renderLightbox();
+}
+function renderLightbox() {
+  const p = photos.find(x => x.id === lbList[lbPos]);
+  if (!p) { closeSheet(); return; }
+  const n = lbList.length, canShare = !!(navigator.canShare && window.File);
+  $("#sheet-root").innerHTML = `<div class="lb" role="dialog" aria-modal="true" aria-label="Photo ${lbPos + 1} sur ${n}">
+    <div class="lb-top"><span>${lbPos + 1} / ${n}</span><button type="button" id="lb-x" aria-label="Fermer">×</button></div>
+    <div class="lb-stage" id="lb-stage"><img id="lb-img" src="${PUB + p.vignette}" alt="${p.legende ? esc(p.legende) : "Photo du tournoi"}">
+      ${lbPos > 0 ? `<button class="lb-nav prev" type="button" id="lb-prev" aria-label="Photo précédente">‹</button>` : ""}
+      ${lbPos < n - 1 ? `<button class="lb-nav next" type="button" id="lb-next" aria-label="Photo suivante">›</button>` : ""}</div>
+    <div class="lb-info"><div><b>${p.auteur ? esc(p.auteur) : "Anonyme"}</b> · ${clockMu(Date.parse(p.created_at))}</div>
+      ${p.legende ? `<div class="cap">${esc(p.legende)}</div>` : ""}
+      <div class="lb-actions"><a class="btn" href="${PUB + p.photo}?download=fun-padel-${p.id}.jpg" download="fun-padel-${p.id}.jpg">Télécharger</a>
+        ${canShare ? `<button class="btn" type="button" id="lb-share">Partager</button>` : ""}
+        ${myPhotos.includes(p.id) ? `<button class="btn" type="button" id="lb-del">Retirer</button>` : ""}</div></div>
+  </div>`;
+  const full = new Image();
+  full.onload = () => { const el = $("#lb-img"); if (el && lbList[lbPos] === p.id) el.src = full.src; };
+  full.src = PUB + p.photo;
+  const st = $("#lb-stage"); let x0 = null, y0 = 0;
+  st.addEventListener("touchstart", e => { if (e.touches.length === 1) { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; } else x0 = null; }, { passive: true });
+  st.addEventListener("touchend", e => {
+    if (x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) lbMove(dx < 0 ? 1 : -1);
+  });
+}
+function lbMove(d) { const k = lbPos + d; if (k >= 0 && k < lbList.length) { lbPos = k; renderLightbox(); } }
+async function lbShare() {
+  const p = photos.find(x => x.id === lbList[lbPos]); if (!p) return;
+  try {
+    const blob = await (await fetch(PUB + p.photo)).blob();
+    const file = new File([blob], `fun-padel-${p.id}.jpg`, { type: "image/jpeg" });
+    if (navigator.canShare({ files: [file] })) await navigator.share({ files: [file], title: "Fun Padel Maurice Accueil" });
+    else location.href = `${PUB + p.photo}?download=fun-padel-${p.id}.jpg`;
+  } catch (e) { if (e && e.name !== "AbortError") toast("Partage impossible, utilisez Télécharger"); }
+}
+async function lbDelete() {
+  const id = lbList[lbPos];
+  if (!confirm("Retirer cette photo de l'album ? Elle ne sera plus visible par personne.")) return;
+  try {
+    const res = await fetch(RPC + "fun_padel_retirer_photo", { method: "POST", headers: rpcHeaders, body: JSON.stringify({ p_id: id, p_cle: devKey }) });
+    if (!res.ok || !(await res.json())) throw new Error("refus");
+    photos = photos.filter(p => p.id !== id); store.set("fp_photos", photos);
+    myPhotos = myPhotos.filter(x => x !== id); store.set("fp_myphotos", myPhotos);
+    closeSheet(); render(); toast("Photo retirée de l'album");
+  } catch { toast("Impossible de retirer la photo. Vérifiez votre connexion."); }
+}
+
 /* ---------- Synchronisation ---------- */
 async function refresh() {
   try {
@@ -922,20 +1167,22 @@ function renderSync() {
 }
 
 /* ---------- Rendu et navigation ---------- */
+const TABS = ["matchs", "moi", "classement", "photos", "vote"];
 function render() {
   renderStatus();
   document.querySelectorAll(".tab").forEach(b => b.setAttribute("aria-current", b.dataset.tab === tab ? "page" : "false"));
-  for (const t of ["matchs", "moi", "classement", "vote"]) $("#view-" + t).hidden = t !== tab;
+  for (const t of TABS) $("#view-" + t).hidden = t !== tab;
   if (tab === "matchs") renderMatchs(); else if (tab === "moi") renderMoi(); else if (tab === "classement") renderClassement();
+  else if (tab === "photos") renderPhotos();
   else if (!$("#view-vote").childElementCount || voted) { renderVote(); loadResults(); } else renderVoteResults();
   renderSync();
 }
-function go(t) { tab = t; if (location.hash !== "#" + t) history.replaceState(null, "", "#" + t); render(); window.scrollTo({ top: 0 }); if (t === "vote") loadResults(); }
+function go(t) { tab = t; if (location.hash !== "#" + t) history.replaceState(null, "", "#" + t); render(); window.scrollTo({ top: 0 }); if (t === "vote") loadResults(); if (t === "photos") loadPhotos(); }
 let toastTimer;
 function toast(msg) { const r = $("#toast-root"); r.innerHTML = `<div class="toast" role="status">${esc(msg)}</div>`; clearTimeout(toastTimer); toastTimer = setTimeout(() => r.innerHTML = "", 2600); }
 
 document.addEventListener("click", e => {
-  const t = e.target.closest("[data-tab],[data-tour],[data-enter],[data-me],[data-pick],[data-unme],[data-step],[data-set],[data-sub],[data-unsub],#sub-save,#save,#clear,#cancel,#bd,#share,#v-send,#v-code-go,#v-code-out,#v-again");
+  const t = e.target.closest("[data-tab],[data-tour],[data-enter],[data-me],[data-pick],[data-unme],[data-step],[data-set],[data-sub],[data-unsub],#sub-save,#save,#clear,#cancel,#bd,#share,#v-send,#v-code-go,#v-code-out,#v-again,[data-pf],[data-ph],#ph-send,#lb-x,#lb-prev,#lb-next,#lb-share,#lb-del");
   if (!e.target.closest(".finder") && $("#find-results") && !$("#find-results").hidden) { $("#find-results").hidden = true; }
   if (!t) return;
   if (t.dataset.pick !== undefined) { pick(Number(t.dataset.pick)); return; }
@@ -955,12 +1202,23 @@ document.addEventListener("click", e => {
   else if (t.dataset.unsub !== undefined) cancelSub(Number(t.dataset.unsub));
   else if (t.id === "sub-save") saveSub();
   else if (t.id === "v-send") sendBallot();
-  else if (t.id === "v-again") { voted = null; store.set("fp_voted", null); ballot = { voter: "", c: ["", "", "", "", "", ""], rem: "" }; renderVote(); window.scrollTo({ top: 0 }); }
+  else if (t.id === "v-again") { voted = null; store.set("fp_voted2", null); ballot = { voter: "", c: ["", "", "", "", "", ""], rem: "" }; renderVote(); window.scrollTo({ top: 0 }); }
+  else if (t.dataset.pf) { photoFilter = t.dataset.pf; renderPhotos(); }
+  else if (t.dataset.ph) openLightbox(Number(t.dataset.ph));
+  else if (t.id === "ph-send") uploadAll();
+  else if (t.id === "lb-x") closeSheet();
+  else if (t.id === "lb-prev") lbMove(-1);
+  else if (t.id === "lb-next") lbMove(1);
+  else if (t.id === "lb-share") lbShare();
+  else if (t.id === "lb-del") lbDelete();
   else if (t.id === "v-code-go") tryCode();
   else if (t.id === "v-code-out") { orgCode = ""; store.set("fp_code", ""); results = null; loadResults(); }
 });
-window.addEventListener("hashchange", () => { const t = location.hash.slice(1); if (["matchs", "moi", "classement", "vote"].includes(t) && t !== tab) go(t); });
-document.addEventListener("keydown", e => { if (e.key === "Escape" && sheetMatch !== null) closeSheet(); });
+window.addEventListener("hashchange", () => { const t = location.hash.slice(1); if (TABS.includes(t) && t !== tab) go(t); });
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && sheetMatch !== null) closeSheet();
+  else if (sheetMatch === -3 && (e.key === "ArrowLeft" || e.key === "ArrowRight")) lbMove(e.key === "ArrowLeft" ? -1 : 1);
+});
 async function share() {
   const url = location.origin + location.pathname;
   if (navigator.share) { try { await navigator.share({ title: "Fun Padel Maurice Accueil", text: "Planning, scores et classement du Fun Padel", url }); } catch {} return; }
@@ -968,10 +1226,11 @@ async function share() {
 }
 
 const h = location.hash.slice(1);
-if (["matchs", "moi", "classement", "vote"].includes(h)) tab = h;
-rebuild(); render(); refresh();
+if (TABS.includes(h)) tab = h;
+rebuild(); render(); refresh(); loadPhotos();
 setInterval(() => { if (document.visibilityState === "visible") refresh(); }, 15000);
 setInterval(() => { if (document.visibilityState === "visible" && tab === "vote") loadResults(); }, 30000);
+setInterval(() => { if (document.visibilityState === "visible" && tab === "photos") loadPhotos(); }, 30000);
 setInterval(() => { renderStatus(); }, 20000);
 document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") refresh(); });
 </script>
